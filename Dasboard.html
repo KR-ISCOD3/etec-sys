@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETEC SYS</title>
+    
+    <!-- link bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <!-- link bootstrap -->
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+<body class="container-fluid p-0 font-custom">
+    <main class="m-0 d-none d-lg-flex">
+
+
+        <aside class="col-2 bg-etec-color d-flex flex-column sticky-top px-4" style="height: 100vh;">
+
+        <!-- Sidebar Header -->
+        <div class="text-white border-bottom border-secondary d-flex align-items-center py-3">
+            <img src="assets/etec.png" alt="" class="border rounded-2 object-fit-cover" width="50" height="50">
+            <div class="ms-2">
+                <h6 class="mt-2 mb-0">ETEC CENTER</h6>
+                <p class="text-white-50 mb-0 fw-normal small">Build your IT</p>
+            </div>
+        </div>
+
+        <!-- User Profile -->
+        <div class="text-white d-flex align-items-center py-3 border-bottom border-secondary">
+            <img src="./assets/defaultuser.png" alt="" class="rounded-circle object-fit-cover" width="50" height="50" id="profileImage">
+            <div class="ms-2">
+                <p class="mb-0 small text-limit">Name: <span id="profileName">Bern Thern</span></p>
+                <p class="mb-0 small">ID: <span class="text-info" id="profileId">14</span></p>
+            </div>
+        </div>
+
+        <!-- Scrollable Menu -->
+        <div class="flex-grow-1 overflow-auto pt-2">
+            <ul class="list-unstyled mb-0">
+
+                <li>
+                    <a href="#" class="btn text-white w-100 text-start my-1 ps-0 border-0 fs-6">
+                        <i class="bi bi-house-door-fill me-2"></i> Home
+                    </a>
+                </li>
+
+                <!-- Instructor Menu -->
+                <li class="border-bottom border-secondary">
+                    <button class="btn text-white w-100 my-1 px-0 border-0 fs-6 text-start d-flex justify-content-between align-items-center"
+                            type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor">
+                        <div><i class="bi bi-person-workspace me-2"></i> Instructor</div>
+                        <i class="bi bi-caret-right-fill arrow-icon fs-6"></i>
+                    </button>
+                    <div class="collapse ps-3" id="collapseInstructor">
+                        <a href="#" class="btn text-white w-100 text-start my-1 border-0 fs-6"><i class="bi bi-house-add-fill me-2"></i> Class</a>
+                        <a href="#" class="btn text-white w-100 text-start my-1 border-0 fs-6"><i class="bi bi-gear-fill me-2"></i> Setting</a>
+                    </div>
+                </li>
+
+                <!-- Admin Menu -->
+                <li class="border-bottom border-secondary">
+                    <button class="btn text-white w-100 my-1 px-0 border-0 fs-6 text-start d-flex justify-content-between align-items-center"
+                            type="button" data-bs-toggle="collapse" data-bs-target="#collapseAdmin">
+                        <div><i class="bi bi-person-workspace me-2"></i> Admin</div>
+                        <i class="bi bi-caret-right-fill arrow-icon fs-6"></i>
+                    </button>
+                    <div class="collapse ps-3" id="collapseAdmin">
+                        <a href="#" class="btn text-white w-100 text-start my-1 border-0 fs-6"><i class="bi bi-person-fill me-2"></i> Instructor</a>
+                        <a href="#" class="btn text-white w-100 text-start my-1 border-0 fs-6"><i class="bi bi-house-fill me-2"></i> Class</a>
+                        <a href="#" class="btn text-white w-100 text-start my-1 border-0 fs-6"><i class="bi bi-people-fill me-2"></i> Student</a>
+                        <a href="#" class="btn text-white w-100 text-start my-1 border-0 fs-6"><i class="bi bi-building-fill me-2"></i> Building</a>
+                        <a href="#" class="btn text-white w-100 text-start my-1 border-0 fs-6"><i class="bi bi-book-fill me-2"></i> Courses</a>
+                        <a href="#" class="btn text-white w-100 text-start my-1 border-0 fs-6"><i class="bi bi-clock-fill me-2"></i> Term & Time</a>
+                        <a href="#" class="btn text-white w-100 text-start my-1 border-0 fs-6"><i class="bi bi-bookmark-check-fill me-2"></i> Document</a>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+
+        <!-- Logout Button fixed at bottom -->
+        <div class="p-2 border-top border-secondary">
+            <button class="btn btn-danger w-100" id="btnLogout">
+                <i class="bi bi-box-arrow-left me-2"></i> Logout
+            </button>
+        </div>
+
+        </aside>
+
+
+        <section class="col-10  bg-light">
+
+            <!-- instructor ban 50% -->
+            <div class="p-4 border">
+                <h3 class="mb-0">Attendence System</h3>
+                <p class="text-secondary mb-3">Manage your class like manage your oun heart</p>
+
+                <div class="container p-0 border-bottom pb-3">
+                    <div class="row g-4">
+
+                    <!-- Total Class -->
+                    <div class="col-md-3">
+                        <div class="card border rounded h-100">
+                        <div class="card-body d-flex align-items-center justify-content-between px-4">
+                            <div>
+                            <h6 class="text-muted mb-1">Total Class</h6>
+                            <h3 class="fw-medium mb-0">20</h3>
+                            </div>
+                            <div class="me-3 text-primary fs-1 border-start ps-3">
+                            <i class="bi bi-easel2-fill"></i>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <!-- Total Student -->
+                    <div class="col-md-3">
+                        <div class="card border rounded h-100">
+                            <div class="card-body d-flex align-items-center justify-content-between px-4">
+                                <div>
+                                <h6 class="text-muted mb-1">Total Student</h6>
+                                <h3 class="fw-medium mb-0">150</h3>
+                                </div>
+                                <div class="me-3 text-success fs-1 border-start ps-3">
+                                <i class="bi bi-people-fill"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Male Student -->
+                    <div class="col-md-3">
+                        <div class="card border rounded h-100">
+                            <div class="card-body d-flex align-items-center justify-content-between px-4">
+                                <div>
+                                <h6 class="text-muted mb-1">Male Student</h6>
+                                <h3 class="fw-medium mb-0">80</h3>
+                                </div>
+                                <div class="me-3 text-info fs-1 border-start ps-3">
+                                <i class="bi bi-gender-male"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Female Student -->
+                    <div class="col-md-3">
+                        <div class="card border rounded h-100">
+                            <div class="card-body d-flex align-items-center justify-content-between px-4">
+                                <div>
+                                <h6 class="text-muted mb-1">Female Student</h6>
+                                <h3 class="fw-medium mb-0">70</h3>
+                                </div>
+                                <div class="me-3 text-danger fs-1 border-start ps-3">
+                                <i class="bi bi-gender-female"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    </div>
+                </div>
+
+                <div class="container p-0 mt-3">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        
+                        <div class="col-3 pb-3">
+                            <form action="" class="d-flex border rounded bg-white">
+                                <input type="text" placeholder="Search Class..." class="form-control shadow-none border-0 bg-transparent">
+                                <button class="btn ">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </form>
+                        </div>
+
+                        <button class="btn rounded btn-light border">Add Class +</button>                 
+                    </div>
+
+                    <div class="row g-4">
+
+                        <!-- Card 1 -->
+                        <div class="col-md-4">
+                            <div class="card shadow-sm border-0 rounded h-100">
+
+                                <div class="card-body p-4">
+                                    <!-- Header -->
+                                    <div class="d-flex align-items-center mb-2 justify-content-between">
+                                        <div class="me-3 d-flex align-items-center fs-2">
+                                            <i class="bi bi-house-fill text-etec-color me-2"></i>
+                                            <h5 class="mb-0 fw-bold">Course Title</h5>
+                                        </div>
+
+                                        <!-- Dropdown -->
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-three-dots-vertical fs-5"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end shadow-sm py-0 overflow-hidden">
+                                                <li class="">
+                                                    <button class="btn border-0 py-2 rounded-0 w-100 text-start">
+                                                        Update
+                                                    </button>                        
+                                                </li>
+                                                <li class="">
+                                                    <button class="btn border-0 py-2 rounded-0 w-100 text-start">
+                                                        Add Student
+                                                    </button>                        
+                                                </li>
+                                                <li class="">
+                                                    <button class="btn btn-secondary border-0 py-2 rounded-0 w-100 text-start">
+                                                        Pre-End
+                                                    </button>                        
+                                                </li>
+                                                <li class="">
+                                                    <button class="btn btn-danger border-0 py-2 rounded-0 w-100 text-start">
+                                                        End
+                                                    </button>                        
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <!-- Content -->
+                                    <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
+                                        <div class="col-4">
+                                            <p class="m-0">
+                                                <strong>Class Lessons:</strong>
+                                            </p>
+                                        </div>
+                                        <div class="col-8">
+                                            <p class="m-0">Introduction</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
+                                        <div class="col-4">
+                                            <p class="m-0">
+                                                <strong>Floor / Room:</strong>
+                                            </p>
+                                        </div>
+                                        <div class="col-8">
+                                            <p class="m-0">
+                                                Floor 2 - <span class="text-etec-color fw-medium">(Room 1)</span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
+                                        <div class="col-4">
+                                            <p class="m-0">
+                                                <strong>Class Status: </strong>
+                                            </p>
+                                        </div>
+                                        <div class="col-8">
+                                            <span class="badge bg-primary fw-medium">Progress</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
+                                        <div class="col-4">
+                                            <p class="m-0">
+                                                <strong>Total Stu: </strong>
+                                            </p>
+                                        </div>
+                                        <div class="col-8">
+                                            <p class="m-0">
+                                                12
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                
+                                
+                                    
+                                    <!-- Footer -->
+                                    <a href="#" class="btn btn-light border w-100 mt-3 text-etec-color">
+                                        View Class
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- admin -->
+            <div class="p-4 border">
+
+                <!-- home section -->
+                <div>
+                    <h3 class="mb-0">ETEC Management System</h3>
+                    <p class="text-secondary mb-3">Efficiently manage classes, students, and staff.</p>
+
+                    <div class="container p-0 border-bottom pb-3">
+                        <div class="row g-4">
+
+                        <!-- Total Class -->
+                        <div class="col-md-3">
+                            <div class="card border rounded h-100">
+                            <div class="card-body d-flex align-items-center justify-content-between px-4">
+                                <div>
+                                <h6 class="text-muted mb-1">Total Class</h6>
+                                <h3 class="fw-medium mb-0">20</h3>
+                                </div>
+                                <div class="me-3 text-primary fs-1 border-start ps-3">
+                                <i class="bi bi-easel2-fill"></i>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+
+                        <!-- Total Student -->
+                        <div class="col-md-3">
+                            <div class="card border rounded h-100">
+                                <div class="card-body d-flex align-items-center justify-content-between px-4">
+                                    <div>
+                                    <h6 class="text-muted mb-1">Total Student</h6>
+                                    <h3 class="fw-medium mb-0">150</h3>
+                                    </div>
+                                    <div class="me-3 text-success fs-1 border-start ps-3">
+                                    <i class="bi bi-people-fill"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Total Instructor -->
+                        <div class="col-md-3">
+                            <div class="card border rounded h-100">
+                                <div class="card-body d-flex align-items-center justify-content-between px-4">
+                                    <div>
+                                    <h6 class="text-muted mb-1">Total Instructor</h6>
+                                    <h3 class="fw-medium mb-0">80</h3>
+                                    </div>
+                                    <div class="me-3 text-info fs-1 border-start ps-3">
+                                    <i class="bi bi-person-fill"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Total Courses -->
+                        <div class="col-md-3">
+                            <div class="card border rounded h-100">
+                                <div class="card-body d-flex align-items-center justify-content-between px-4">
+                                    <div>
+                                    <h6 class="text-muted mb-1">Total Courses</h6>
+                                    <h3 class="fw-medium mb-0">70</h3>
+                                    </div>
+                                    <div class="me-3 text-danger fs-1 border-start ps-3">
+                                    <i class="bi bi-bookmark-fill"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        </div>
+                    </div>
+
+                    <div class="container p-0 mt-3">
+
+                    </div>
+                </div>
+                <!-- home section -->
+
+                <!-- instructor section -->
+                <div>
+                    <h3 class="mb-0">ETEC's Instructor</h3>
+                    <p class="text-secondary mb-3">Streamline staff management.</p>
+
+                    <div class="container p-0 border-bottom pb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            
+                            <!-- form search -->
+                            <div class="col-3 pb-3">
+                                <form action="" class="d-flex border rounded bg-white">
+                                    <input type="text" placeholder="Search Class..." class="form-control shadow-none border-0 bg-transparent">
+                                    <button class="btn ">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </form>
+                            </div>
+                                          
+                        </div>
+                                 
+                    </div>
+
+                    <div class="container p-0 mt-3">
+                        
+                    </div>
+                </div>
+                <!-- instructor section -->
+
+
+
+
+
+                <!-- Category section -->
+                <section>
+                    <h3 class="mb-0">Manage Course Category </h3>
+                    <p class="text-secondary mb-3">You can create category of your course</p>
+
+                    <div class="container p-0 border-bottom pb-3">
+                        <div class="d-flex justify-content-between align-items-center">                 
+                            <!-- form search -->
+                            <div class="col-3 pb-3">
+                                <form action="" class="d-flex border rounded bg-white">
+                                    <input type="text" placeholder="Search Category..." class="form-control shadow-none border-0 bg-transparent">
+                                    <button class="btn ">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            
+                            <!-- btn add category -->
+                            <button class="btn btn-light border" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+                                Add Category +
+                            </button>         
+                        </div>
+                                 
+                    </div>
+
+                    <div class="container p-0 mt-3">
+                        <div class="table-responsive rounded">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <td scope="col" class="text-secondary">#</td>
+                                        <td scope="col" class="text-secondary">Name</td>
+                                        <td scope="col" class="text-secondary">Created By</td>
+                                        <td scope="col" class="text-secondary">Created At</td>
+                                        <td scope="col" class="text-center text-secondary">Action</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Category One</td>
+                                        <td><span class="text-primary bg-primary-subtle px-2 rounded">Admin</span></td>
+                                        <td><span class="text-secondary bg-secondary-subtle px-2 rounded">2025-09-12</span></td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-primary me-1" data-bs-toggle="modal" data-bs-target="#updateCategoryModal">
+                                                <i class="bi bi-pencil"></i>
+                                            </button> 
+                                            <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCategoryModal">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Add Category Modal -->
+                    <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Add Category</h5>
+                                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+                                </div>
+                                <form>
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label class="form-label">Category Name</label>
+                                            <input type="text" class="form-control shadow-none border" placeholder="Enter category name">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="btn btn-primary">Add</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Update Category Modal -->
+                    <div class="modal fade" id="updateCategoryModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Update Category</h5>
+                                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+                                </div>
+                                <form>
+                                    <div class="modal-body">
+                                        <input type="hidden" id="updateCategoryId">
+                                        <div class="mb-3">
+                                            <label class="form-label">Category Name</label>
+                                            <input type="text" class="form-control shadow-none border" id="updateCategoryName" placeholder="Enter category name">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="btn btn-primary">Update</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Delete Category Modal -->
+                    <div class="modal fade" id="deleteCategoryModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h6 class="modal-title">Delete Category</h6>
+                                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+                                </div>
+                                <form action="">
+                                    <div class="modal-body">
+                                        <p class="mb-0">Are you sure you want to delete this category?</p>
+                                        <input type="hidden" id="deleteCategoryId">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-danger">Delete</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </section>
+                <!-- Category section -->
+
+            </div>
+
+        </section>
+
+     
+
+        
+
+    </main>
+
+    <main class="d-flex align-items-center justify-content-center d-lg-none">
+        <h1>Not Found</h1>
+    </main>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#collapseBtn').on('click', function() {
+        // toggle content visibility
+        $('.content').toggleClass('d-none d-block');
+
+        $(this).find('.arrow-icon').toggleClass('rotate');
+    });
+
+    $('#collapseBtnAdmin').on('click', function() {
+        // toggle content visibility
+        $('.content').toggleClass('d-none d-block');
+        $(this).find('.arrow-icon').toggleClass('rotate');
+    });
+});
+</script>
+</html>
