@@ -25,6 +25,19 @@
             self::response(true, "Categories fetched", $categories);
         }
 
+        // Get category and id of categories
+        public static function getSomeCategory($conn) {
+            $result = $conn->query("SELECT c.id, c.category
+                                    FROM categories c
+                                    LEFT JOIN users u ON c.created_by = u.id
+                                    ORDER BY c.id DESC");
+            $categories = [];
+            while ($row = $result->fetch_assoc()) {
+                $categories[] = $row;
+            }
+            self::response(true, "Categories fetched", $categories);
+        }
+
         // Get single category
         public static function get($conn, $id) {
             $stmt = $conn->prepare("SELECT c.id, c.category, u.name AS created_by, c.created_at 

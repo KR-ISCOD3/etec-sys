@@ -20,7 +20,7 @@
 
 
         <?php require_once (__DIR__.'/components/sidebar.php') ?>
-
+    
 
         <div id="content-area" class="flex-grow-1 p-4">
             <!-- Page content will be loaded here -->
@@ -56,7 +56,7 @@
         }
 
         // Load default page
-        loadPage("pages/admin/categories.php");
+        loadPage("pages/admin/courses.php");
 
         // Handle sidebar link clicks
         $(document).on("click", ".nav-link-ajax", function (e) {

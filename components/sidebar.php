@@ -109,7 +109,7 @@
                                 Building
                             </li>
                         </a>
-                        <a href="" class="btn text-white w-100 text-start my-1  border-0 fs-6 nav-link-ajax">
+                        <a href="pages/admin/courses.php" class="btn text-white w-100 text-start my-1  border-0 fs-6 nav-link-ajax">
                             <li class="m-0">
                                 <i class="bi bi-book-fill me-2"></i>
                                 Courses
@@ -125,6 +125,12 @@
                             <li class="m-0">
                                 <i class="bi bi-book-half  me-2"></i>
                                 Document
+                            </li>
+                        </a>
+                        <a href="" class="btn text-white w-100 text-start my-1 border-0 fs-6 nav-link-ajax">
+                            <li class="m-0">
+                                <i class="bi bi-map-fill  me-2"></i>
+                                Roadmap
                             </li>
                         </a>
                         <a href="pages/admin/categories.php" class="btn text-white w-100 text-start my-1 border-0 fs-6 nav-link-ajax">
@@ -155,7 +161,7 @@
       
       <div class="modal-header">
         <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       
       <div class="modal-body">
@@ -164,7 +170,7 @@
       
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-danger" id="btnLogout">Logout</button>
+        <button type="button" class="btn btn-danger shadow-none" id="btnLogout">Logout</button>
       </div>
 
     </div>
