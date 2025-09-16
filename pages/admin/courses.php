@@ -1,5 +1,6 @@
 <!-- Course section -->
 <section>
+    
     <h3 class="mb-0">Course Management</h3>
     <p class="text-secondary mb-3">Manage the courses offered at your school</p>
 
@@ -32,15 +33,15 @@
 
     <!-- Success Alert -->
     <div id="successAlert" class="alert alert-success alert-dismissible fade show mt-3 " style="display:none;" role="alert">
-        <span id="successMessage">✅ Course added successfully!</span>
+        <span id="successMessage"></span>
         <button type="button" class="btn-close shadow-none" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
     <!-- Table -->
-    <div class="container p-0 mt-3">
-        <div class="table-responsive rounded">
+    <div class="container p-0">
+        <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
-                <thead class="table-light">
+                <thead>
                 <tr>
                     <td class="text-secondary">#</td>
                     <td class="text-secondary">Course Name</td>
@@ -83,7 +84,12 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Add</button>
+                        <button type="submit" class="btn btn-primary" id="addBtn">
+                            Add
+                            <span class="spinner-border spinner-border-sm text-light ms-2 d-none" role="status" id="addSpinner">
+                                <span class="visually-hidden">Loading...</span>
+                            </span>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -128,9 +134,14 @@
                         </div>
                     </div>
 
-                    <div class="modal-footer">
+                   <div class="modal-footer">
                         <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="submit" class="btn btn-primary" id="updateBtn">
+                            Update
+                            <span class="spinner-border spinner-border-sm text-light ms-2 d-none" role="status" id="updateSpinner">
+                                <span class="visually-hidden">Loading...</span>
+                            </span>
+                        </button>
                     </div>
                 </form>
 
@@ -148,14 +159,19 @@
             <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
             </div>
             <form id="deleteCourseForm">
-            <div class="modal-body">
-                <p class="mb-0">Are you sure you want to delete this course?</p>
-                <input type="hidden" id="deleteCourseId">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-danger">Delete</button>
-            </div>
+                <div class="modal-body">
+                    <p class="mb-0">Are you sure you want to delete this course?</p>
+                    <input type="hidden" id="deleteCourseId">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger" id="deleteBtn">
+                        Delete
+                        <span class="spinner-border spinner-border-sm text-light ms-2 d-none" role="status" id="deleteSpinner">
+                            <span class="visually-hidden">Loading...</span>
+                        </span>
+                    </button>
+                </div>
             </form>
         </div>
         </div>
@@ -166,7 +182,15 @@
 <script>
     $(document).ready(function(){
 
-        let course;
+        let course; // declare array for search and filter
+
+        function showAlert(message) {
+            $('#successMessage').text(message);
+            $('#successAlert').stop(true, true).fadeIn(); // Stop previous animations
+            setTimeout(function() {
+                $('#successAlert').fadeOut('slow');
+            }, 3000); // Each alert fades out after 3 seconds
+        }
 
         function renderCourses(courseList) {
             const tbody = $('#courseTableBody');
@@ -204,15 +228,7 @@
                 });
             }
         }
-
-        function showAlert(message) {
-            $('#successMessage').text(message);
-            $('#successAlert').stop(true, true).fadeIn(); // Stop previous animations
-            setTimeout(function() {
-                $('#successAlert').fadeOut('slow');
-            }, 3000); // Each alert fades out after 3 seconds
-        }
-
+        
         // Assuming you have an input with id="searchInput"
         $('#searchInput').on('input', function() {
             const query = $(this).val().toLowerCase();
@@ -234,12 +250,13 @@
             renderCourses(filtered);
         }
 
-        // Event: when category changes
+        // Event: when category changes search
         $('#categoryFilter').on('change', function() {
             const categoryId = $(this).val();
             filterByCategory(categoryId);
         });
         
+        // fetch categories
         function loadCategories() {
             $.ajax({
                 url: 'api.php?endpoint=category_getsome',  // <-- update with your actual endpoint URL
@@ -257,7 +274,8 @@
                         // Second select
                         const filterSelect = $('#categoryFilter');
                         filterSelect.empty();
-                        filterSelect.append('<option value="" selected>All</option>');
+                        filterSelect.append('<option value="" selected disabled>Filted By Category</option>');
+                        filterSelect.append('<option value="" >All</option>');
                         
                         // Populate both selects
                         categories.forEach(cat => {
@@ -274,11 +292,12 @@
                 }
             });
         }
-
         loadCategories()
         // Load categories when the Add Course modal opens
         $('#addCourseModal').on('show.bs.modal', loadCategories);
 
+        
+        // fetch course
         function loadCourses() {
             $.ajax({
                 url: 'api.php?endpoint=course_getall',
@@ -305,7 +324,7 @@
                                         <td><a href="#" class="text-decoration-none">View</a></td>
                                         <td class="text-center">
                                             <button 
-                                                class="btn btn-sm btn-outline-primary me-1 btn-edit" 
+                                                class="btn btn-sm btn-primary me-1 btn-edit" 
 
                                                 data-id="${course.id}"
                                                 data-name="${course.course}"
@@ -314,7 +333,7 @@
                                                 >
                                                     <i class="bi bi-pencil"></i>
                                             </button>
-                                            <button class="btn btn-sm btn-outline-danger btn-delete" data-id="${course.id}"><i class="bi bi-trash"></i></button>
+                                            <button class="btn btn-sm btn-danger btn-delete" data-id="${course.id}"><i class="bi bi-trash"></i></button>
                                         </td>
                                     </tr>
                                 `);
@@ -329,8 +348,7 @@
                 }
             });
         }
-
-        loadCourses(); // initial load
+        loadCourses(); 
 
         // Set course when clicking edit button
         $(document).on('click', '.btn-edit', function() {
@@ -381,12 +399,20 @@
             $('#deleteCourseModal').modal('show'); // Show modal
         });
         
+        // --- CRUD ---
         // --- Add Course ---
         $('#addCourseForm').submit(function(e){
             e.preventDefault();
+
+            const addBtn = $('#addCourseForm button[type="submit"]');
+            const spinner = addBtn.find('.spinner-border');
+
             const course = $('#course').val();
             const category_id = $('#courseCategory').val();
-            
+
+            // Show spinner and disable button
+            spinner.removeClass('d-none');
+            addBtn.prop('disabled', true);
 
             $.ajax({
                 url: 'api.php?endpoint=course_create',
@@ -396,7 +422,6 @@
                 success: function(res){
                     if(res.status){
                         // $('#addCourseModal').modal('hide');
-                        $('#successMessage').text(res.message);
                         $("#addCourseForm")[0].reset();
                         showAlert(res.message);
                         loadCourses();
@@ -404,6 +429,11 @@
                     } else {
                         alert(res.message); 
                     }
+                },
+                complete: function(){
+                    // Hide spinner and enable button
+                    spinner.addClass('d-none');
+                    addBtn.prop('disabled', false);
                 }
             });
         });
@@ -412,7 +442,15 @@
         $('#updateCourseForm').submit(function(e){
             e.preventDefault(); // prevent default form submission
 
+            const updateBtn = $('#updateBtn');
+            const spinner = $('#updateSpinner');
+
             const formData = $(this).serialize(); // serialize normal POST data
+
+            // Show spinner and disable button
+            spinner.removeClass('d-none');
+            updateBtn.prop('disabled', true);
+
             $('#successAlert').hide();
             $.ajax({
                 url: 'api.php?endpoint=course_update',
@@ -421,8 +459,6 @@
                 success: function(res){
                     if(res.status){
                         $('#updateCourseModal').modal('hide');
-                        $('#successMessage').text(res.message);
-                        
                         showAlert(res.message);
                         loadCourses(); // reload course table
                     } else {
@@ -431,25 +467,35 @@
                 },
                 error: function(err){
                     console.error('AJAX error', err);
+                },
+                complete: function(){
+                    // Hide spinner and enable button
+                    spinner.addClass('d-none');
+                    updateBtn.prop('disabled', false);
                 }
             });
         });
 
-        // Handle form submission for deletion
+        // --- Delete Course ---
         $('#deleteCourseForm').on('submit', function(e) {
             e.preventDefault(); // Prevent default form submission
 
             const id = $('#deleteCourseId').val();
+            const deleteBtn = $('#deleteBtn');
+            const spinner = $('#deleteSpinner');
+
+            // Show spinner and disable button
+            spinner.removeClass('d-none');
+            deleteBtn.prop('disabled', true);
+
             $('#successAlert').hide();
             $.ajax({
                 url: 'api.php?endpoint=course_delete', // Your endpoint
                 type: 'POST', // Use POST for normal form submission
                 data: { id: id },
                 success: function(res) {
-                    if(res.status){
-                        
-                        $('#deleteCourseModal').modal('hide');
-                        $('#successMessage').text(res.message);
+                    if(res.status){                      
+                        $('#deleteCourseModal').modal('hide')
                         showAlert(res.message);
                         loadCourses(); // Reload your course table
                     } else {
@@ -458,6 +504,11 @@
                 },
                 error: function(err) {
                     console.error('AJAX error:', err);
+                },
+                complete: function(){
+                    // Hide spinner and enable button
+                    spinner.addClass('d-none');
+                    deleteBtn.prop('disabled', false);
                 }
             });
         });

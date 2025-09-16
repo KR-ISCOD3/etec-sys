@@ -3,7 +3,7 @@
     <h3 class="mb-0">Manage Course Category </h3>
     <p class="text-secondary mb-3">You can create category of your course</p>
 
-    <div class="container p-0 border-bottom pb-3">
+    <div class="container p-0 pb-3">
         <div class="d-flex justify-content-between align-items-center">                 
             <!-- form search -->
             <div class="col-3">
@@ -24,18 +24,18 @@
     </div>
 
 
-    <div class="container p-0 mt-3">
+    <div class="container p-0">
 
-        <div class="table-responsive rounded">
+        <div class="table-responsive">
             <!-- alert success -->
             <div id="successAlert" class="alert alert-success alert-dismissible fade show" style="display:none;" role="alert">
-                Category added successfully!
+                <span id="successMessage"></span>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             <!-- alert success -->
        
 
-            <table class="table table-hover align-middle mb-0">
+            <table class="table table-bordered align-middle mb-0">
                 <thead>
                     <tr>
                         <td scope="col" class="text-secondary">#</td>
@@ -132,7 +132,7 @@
         // array for category
         let allCategories;
 
-        // reder row category 
+        // render row category 
         function renderCategories(categories) {
             let tbody = '';
             
@@ -175,6 +175,14 @@
             }
 
             $('#categoryTableBody').html(tbody);
+        }
+
+        function showAlert(message) {
+            $('#successMessage').text(message);
+            $('#successAlert').stop(true, true).fadeIn(); // Stop previous animations
+            setTimeout(function() {
+                $('#successAlert').fadeOut('slow');
+            }, 3000); // Each alert fades out after 3 seconds
         }
 
         // get all category function
@@ -261,18 +269,13 @@
                         // alert('Category added successfully');
                         $('#addCategoryModal').modal('hide');
                         $('#categoryName').val('');
+                        showAlert(res.message);
                         loadCategories();
                         // Optional: refresh your category list here
                     } else {
                         console.error('Error: ' + res.message);
                     }
-                    // Show success alert
-                    $('#successAlert').fadeIn();
-
-                    // Auto-hide after 5 seconds
-                    setTimeout(function() {
-                        $('#successAlert').fadeOut();
-                    }, 3000);
+                    
                 },
                 error: function(xhr, status, error) {
                     console.error(error);
@@ -313,6 +316,7 @@
                         // alert('Category updated successfully!');
                         $('#updateCategoryModal').modal('hide');
                         $('#updateCategory')[0].reset();
+                        showAlert(res.message);
                         loadCategories(); // Refresh category table
                     } else {
                         console.error('Update failed: ' + res.message);
@@ -349,6 +353,7 @@
                 success: function(res) {
                     if (res.status) {
                         $('#deleteCategoryModal').modal('hide');
+                        showAlert(res.message);
                         loadCategories(); // Refresh category table
                     } else {
                         console.error('Delete failed: ' + res.message);

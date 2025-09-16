@@ -43,6 +43,20 @@
             }
         }
 
+        // Get all courses name and id
+        public static function getCourseNameAndId($conn) {
+            $sql = "SELECT c.id, c.course, c.created_by
+                    FROM courses c
+                    LEFT JOIN users u ON c.created_by = u.id
+                    ORDER BY c.id DESC";
+            $result = $conn->query($sql);
+            $courses = [];
+            while ($row = $result->fetch_assoc()) {
+                $courses[] = $row;
+            }
+            self::response(true, "Courses fetched", $courses);
+        }
+
         // Create course
         public static function create($conn, $course, $category_id, $created_by) {
             $stmt = $conn->prepare("INSERT INTO courses (course, category_id, created_by) VALUES (?, ?, ?)");

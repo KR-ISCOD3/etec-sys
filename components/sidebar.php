@@ -29,7 +29,7 @@
     </div>
 
     <!-- list menu of side bar -->
-    <div class="flex-grow-1 overflow-auto pt-2">
+    <div class="flex-grow-1 pt-2 overflow-y-auto overflow-x-hidden">
         <ul class="list-unstyled">
             <a href="" class="btn text-white w-100 text-start my-1 ps-0 border-0 fs-6 nav-link-ajax">
                 <li class="m-0">
@@ -97,6 +97,12 @@
                                 Class
                             </li>
                         </a>
+                        <a href="pages/admin/classtypes.php" class="btn text-white w-100 text-start my-1  border-0 fs-6 nav-link-ajax">
+                            <li class="m-0">
+                                <i class="bi bi-house-exclamation me-2"></i>
+                                Class Type
+                            </li>
+                        </a>
                         <a href="" class="btn text-white w-100 text-start my-1  border-0 fs-6 nav-link-ajax">
                             <li class="m-0">
                                 <i class="bi bi-people-fill me-2"></i>
@@ -115,7 +121,7 @@
                                 Courses
                             </li>
                         </a>
-                        <a href="" class="btn text-white w-100 text-start my-1  border-0 fs-6 nav-link-ajax">
+                        <a href="pages/admin/termandtime.php" class="btn text-white w-100 text-start my-1  border-0 fs-6 nav-link-ajax">
                             <li class="m-0">
                                 <i class="bi bi-clock-fill me-2"></i>
                                 Term & Time
@@ -127,7 +133,7 @@
                                 Document
                             </li>
                         </a>
-                        <a href="" class="btn text-white w-100 text-start my-1 border-0 fs-6 nav-link-ajax">
+                        <a href="pages/admin/roadmaps.php" class="btn text-white w-100 text-start my-1 border-0 fs-6 nav-link-ajax">
                             <li class="m-0">
                                 <i class="bi bi-map-fill  me-2"></i>
                                 Roadmap

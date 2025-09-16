@@ -56,7 +56,7 @@
         }
 
         // Load default page
-        loadPage("pages/admin/courses.php");
+        loadPage("pages/admin/termandtime.php");
 
         // Handle sidebar link clicks
         $(document).on("click", ".nav-link-ajax", function (e) {
