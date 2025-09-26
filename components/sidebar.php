@@ -31,7 +31,7 @@
     <!-- list menu of side bar -->
     <div class="flex-grow-1 pt-2 overflow-y-auto overflow-x-hidden">
         <ul class="list-unstyled">
-            <a href="" class="btn text-white w-100 text-start my-1 ps-0 border-0 fs-6 nav-link-ajax">
+            <a href="" class="btn text-white w-100 text-start my-1 ps-0 border-0 fs-6 ">
                 <li class="m-0">
                     <i class="bi bi-house-door-fill me-2"></i>
                     Home
@@ -54,7 +54,7 @@
                         
                     </button>
                     <div class="collapse" id="collapseInstructor">
-                        <a href="" class="btn text-white w-100 text-start my-1  border-0 fs-6 nav-link-ajax">
+                        <a href="pages/frontend/classes.php" class="btn text-white w-100 text-start my-1  border-0 fs-6 nav-link-ajax">
                             <li class="m-0">
                                 <i class="bi bi-house-add-fill me-2"></i>
                                 Class
@@ -71,6 +71,7 @@
                 <!-- instructor -->
             <?php elseif ($role === 'admin'): ?>
                 <!-- admin -->
+                
                 <div class="border-bottom border-secondary">
                     <button class="btn text-white w-100 my-1 px-0 border-0 fs-6 text-start d-flex justify-content-between align-items-center" 
                             type="button" 
@@ -85,7 +86,16 @@
                         <i class="bi bi-caret-right-fill arrow-icon fs-6 text-end"></i>
                     </button>
                     <div class="collapse" id="collapseAdmin">
-                        <a href="" class="btn text-white w-100 text-start my-1 border-0 fs-6 nav-link-ajax">
+                        <a href="pages/admin/notifications.php" class="btn text-white w-100 text-start my-1 border-0 fs-6 nav-link-ajax position-relative">
+                            <li class="m-0">
+                                <i class="bi bi-bell-fill me-2"></i>
+                                Notification
+                                <span id="notificationBadge" class="position-absolute top-50 translate-middle badge rounded-pill bg-danger d-none" style="right: 5px;">
+                                    0
+                                </span>
+                            </li>
+                        </a>
+                        <a href="pages/admin/instructors.php" class="btn text-white w-100 text-start my-1 border-0 fs-6 nav-link-ajax">
                             <li class="m-0">
                                 <i class="bi bi-person-fill me-2"></i>
                                 Instructor
@@ -109,7 +119,7 @@
                                 Student
                             </li>
                         </a>
-                        <a href="" class="btn text-white w-100 text-start my-1  border-0 fs-6 nav-link-ajax">
+                        <a href="pages/admin/buildings.php" class="btn text-white w-100 text-start my-1  border-0 fs-6 nav-link-ajax">
                             <li class="m-0">
                                 <i class="bi bi-building-fill me-2"></i>
                                 Building
@@ -125,6 +135,12 @@
                             <li class="m-0">
                                 <i class="bi bi-clock-fill me-2"></i>
                                 Term & Time
+                            </li>
+                        </a>
+                        <a href="pages/admin/schedules.php" class="btn text-white w-100 text-start my-1  border-0 fs-6 nav-link-ajax">
+                            <li class="m-0">
+                                <i class="bi bi-calendar-plus me-2"></i>
+                                Schedule
                             </li>
                         </a>
                         <a href="" class="btn text-white w-100 text-start my-1  border-0 fs-6 nav-link-ajax">
@@ -176,7 +192,10 @@
       
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-danger shadow-none" id="btnLogout">Logout</button>
+        <button type="button" class="btn btn-danger shadow-none" id="btnLogout">
+            Logout
+            <span class="spinner-border spinner-border-sm text-light ms-2 d-none" role="status" aria-hidden="true"></span>
+        </button>
       </div>
 
     </div>
@@ -189,7 +208,12 @@ $(document).ready(function(){
 
     $('#btnLogout').on('click', function(e) {
         e.preventDefault();
+        const btn = $(this);
+        const spinner = btn.find('.spinner-border');
 
+        // Show spinner and disable button
+        spinner.removeClass('d-none');
+        btn.prop('disabled', true);
         $.ajax({
             url: 'api.php?endpoint=logout',  // Call your router endpoint
             method: 'POST',                  // Must be POST
@@ -200,10 +224,14 @@ $(document).ready(function(){
                     window.location.href = 'login.php';
                 } else {
                     alert('Logout failed!');
+                    spinner.addClass('d-none');
+                    btn.prop('disabled', false);
                 }
             },
             error: function() {
                 alert('An error occurred. Please try again.');
+                spinner.addClass('d-none');
+                btn.prop('disabled', false);
             }
         });
     });
@@ -229,7 +257,37 @@ $(document).ready(function(){
                 console.log('Failed to load profile', err);
             }
         });
+    }  
+
+    function updatePendingUsersBadge() {
+        $.ajax({
+            url: 'api.php?endpoint=getPendingUsers',
+            method: 'GET',
+            dataType: 'json',
+            success: function(res) {
+                if (res.status) {
+                    const count = res.data.length || 0; // assuming res.data is an array of pending users
+                    const badge = $('#notificationBadge');
+
+                    if (count > 0) {
+                        badge.text(count);
+                        badge.removeClass('d-none');
+                    } else {
+                        badge.addClass('d-none');
+                    }
+                }
+            },
+            error: function(err) {
+                console.log('Error fetching pending users', err);
+            }
+        });
     }
+
+    // Call once and update periodically
+    updatePendingUsersBadge();
+    setInterval(updatePendingUsersBadge, 5000); // every 5 seconds
+
+
 
 
     loadProfile();

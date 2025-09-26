@@ -22,7 +22,7 @@
         <?php require_once (__DIR__.'/components/sidebar.php') ?>
     
 
-        <div id="content-area" class="flex-grow-1 p-4">
+        <div id="content-area" class="flex-grow-1" style="padding:35px">
             <!-- Page content will be loaded here -->
         </div>
 
@@ -56,7 +56,7 @@
         }
 
         // Load default page
-        loadPage("pages/admin/termandtime.php");
+        loadPage("pages/frontend/classes.php");
 
         // Handle sidebar link clicks
         $(document).on("click", ".nav-link-ajax", function (e) {

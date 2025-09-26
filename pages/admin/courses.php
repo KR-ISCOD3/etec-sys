@@ -5,7 +5,7 @@
     <p class="text-secondary mb-3">Manage the courses offered at your school</p>
 
     <!-- Top toolbar -->
-    <div class="container p-0 border-bottom pb-3">
+    <div class=" p-0 border-bottom pb-3">
         <div class="d-flex justify-content-between align-items-center">
             <!-- form search -->
             <div class="d-flex align-items-center col-10">
@@ -38,7 +38,7 @@
     </div>
 
     <!-- Table -->
-    <div class="container p-0">
+    <div class=" p-0">
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
                 <thead>

@@ -3,7 +3,7 @@
     <h3 class="mb-0">Manage Course Category </h3>
     <p class="text-secondary mb-3">You can create category of your course</p>
 
-    <div class="container p-0 pb-3">
+    <div class=" p-0 pb-3">
         <div class="d-flex justify-content-between align-items-center">                 
             <!-- form search -->
             <div class="col-3">
@@ -24,7 +24,7 @@
     </div>
 
 
-    <div class="container p-0">
+    <div class=" p-0">
 
         <div class="table-responsive">
             <!-- alert success -->

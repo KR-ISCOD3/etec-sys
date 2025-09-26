@@ -87,6 +87,25 @@
     </div>
   </div>
 
+  <!-- Success Modal -->
+  <div class="modal fade" id="successModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header bg-etec-color text-white">
+          <h5 class="modal-title" id="successModalLabel">Registration Submitted</h5>
+          <!-- <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button> -->
+        </div>
+        <div class="modal-body text-center pb-5">
+          <i class="bi bi-check-circle-fill fs-1 text-etec-color mb-3"></i>
+          <p class="mb-0">Your registration has been received.<br>Please wait for admin approval.</p>
+        </div>
+        <!-- <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-light border shadow-none" data-bs-dismiss="modal">OK</button>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
   <!-- jQuery & Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
@@ -94,6 +113,17 @@
   <!-- Custom JS -->
   <script>
     $(document).ready(function() {
+      // Get email from localStorage if exists
+      let userEmail = localStorage.getItem('userEmail') || "";
+
+      // Show modal automatically if email exists in localStorage
+      if (userEmail) {
+          const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+          successModal.show();
+
+          // // Start checking approval
+          setInterval(checkApproval, 3000);
+      }
 
       // Toggle password visibility
       $("#togglePassword").on("click", function () {
@@ -126,19 +156,24 @@
           gender: $("#gender").val(),
           password: $("#password").val()
         };
-
+        // Save email to localStorage
+        userEmail = formData.email;
+        localStorage.setItem('userEmail', userEmail);
         // Call your API
         $.ajax({
             url: "api.php?endpoint=register",
             type: "POST",
-            data: formData,           // data sent as key=value pairs
+            data: formData,
             dataType: "json",
             success: function(response){
                 if(response.status){
                   $("form")[0].reset();
-                  // $("#email").removeClass('border-danger'); 
-                   window.location.href = "index.php";
-                  // alert(response.message); // or show success message on page
+
+                  // Show the success modal
+                  const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                  successModal.show();
+
+                  setInterval(checkApproval, 3000);
                 } else {
                   $("#errorMessage").show().text(response.message);
                   $("#email").addClass('border-danger'); 
@@ -156,7 +191,24 @@
             }
         });
       });
-
+      
+      function checkApproval() {
+          if (!userEmail) return; // email not set yet
+          $.ajax({
+              url: 'api.php?endpoint=checkApproval&email=' + encodeURIComponent(userEmail),
+              type: 'GET',
+              dataType: 'json',
+              success: function(res) {
+                  // console.log(res);
+                  if (res.status && res.data.approval === 'approved') {
+                      localStorage.removeItem('userEmail');
+                      window.location.href = 'index.php'; // redirect to dashboard
+                  }
+              }
+          });
+      }
+      checkApproval();
+      // setInterval(checkApproval, 3000);
     });
   </script>
 

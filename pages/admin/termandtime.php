@@ -9,7 +9,7 @@
         <button type="button" class="btn-close shadow-none" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
-    <div class="container p-0 mt-3 border-top pt-3">
+    <div class=" p-0 mt-3 border-top pt-3">
         <div class="table-responsive rounded">
             <div class="d-flex justify-content-between mb-3 align-items-center">
                 <p class="m-0 text-secondary fs-4"><span class="px-3 bg-secondary-subtle rounded">Term</span></p>
@@ -35,7 +35,7 @@
         </div>
     </div>
 
-    <div class="container p-0 mt-3 pt-3">
+    <div class=" p-0 mt-3 pt-3">
         <div class="table-responsive rounded">
             <div class="d-flex justify-content-between mb-3 align-items-center">
                 <p class="m-0 text-primary fs-4"><span class="px-3 bg-primary-subtle rounded">Time</span></p>

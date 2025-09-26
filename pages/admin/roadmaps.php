@@ -3,7 +3,7 @@
     <h3 class="mb-0">Roadmap Course</h3>
     <p class="text-secondary mb-3">You can create roadmap of your course</p>
 
-    <div class="container p-0 border-bottom pb-3">
+    <div class="p-0 border-bottom pb-3">
         <div class="d-flex justify-content-between align-items-center">
         <!-- form search -->
         <div class="col-3">
@@ -30,7 +30,7 @@
     </div>
 
 
-    <div class="container p-0">
+    <div class="p-0">
         <div class="table-responsive mt-3">
         <table class="table  table-bordered mb-0">
             <thead>
