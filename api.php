@@ -10,7 +10,10 @@ require_once(__DIR__ . '/controllers/backend/TermAndTimeController.php');
 require_once(__DIR__ . '/controllers/backend/ScheduleController.php');
 require_once(__DIR__ . '/controllers/backend/BuildingController.php');
 require_once(__DIR__ . '/controllers/backend/InstructorController.php');
+
+
 require_once(__DIR__ . '/controllers/frontend/ClassController.php');
+require_once(__DIR__ . '/controllers/frontend/StudentController.php');
 
 
 header('Content-Type: application/json');
@@ -329,44 +332,113 @@ switch ($endpoint) {
         }
     break;
 
-    case 'building_create':
+    // --- BUILDING ---
+    case 'insert_building':
         if ($method !== 'POST') response(false, "Method not allowed");
+
         $buildingName = $_POST['building_name'] ?? '';
-        $floors = $_POST['floors'] ?? '[]';
-        $createdBy = $_SESSION['user']['id'] ?? 1;
+        $userId = $_SESSION['user']['id'] ?? 1;
 
-        BuildingController::create($conn, $buildingName, $floors, $createdBy);
+        BuildingController::addBuilding($conn, $buildingName, $userId);
     break;
 
-    case 'building_fetch_all':
+    case 'getAllBuildings':
         if ($method !== 'GET') response(false, "Method not allowed");
-        BuildingController::fetchAll($conn);
-    break;
-    
-    case 'building_update':
-        if ($method !== 'POST') {
-            response(false, "Method not allowed");
-        }
 
+        BuildingController::getAllBuildings($conn);
+    break;
+
+    case 'update_building':
+        if ($method !== 'POST') response(false, "Method not allowed");
         $buildingId = $_POST['building_id'] ?? 0;
         $buildingName = $_POST['building_name'] ?? '';
-        $floors = $_POST['floors'] ?? '[]';
-        $updatedBy = $_SESSION['user']['id'] ?? 1;
-
-        BuildingController::update($conn, $buildingId, $buildingName, $floors, $updatedBy);
+        BuildingController::updateBuilding($conn, $buildingId, $buildingName);
     break;
 
-    case 'building_delete':
+    case 'delete_building':
         if ($method !== 'POST') response(false, "Method not allowed");
-        $buildingId = intval($_POST['building_id'] ?? 0);
-        if ($buildingId > 0) {
-            BuildingController::delete($conn, $buildingId);
-        } else {
-            response(false, "Invalid building ID");
-        }
+        $buildingId = $_POST['building_id'] ?? 0;
+        BuildingController::deleteBuilding($conn, $buildingId);
+    break;
+
+
+    // --- FLOOR ---
+    case 'insert_floor':
+        if ($method !== 'POST') response(false, "Method not allowed");
+
+        $buildingId = $_POST['building_id'] ?? 0;
+        $floorName = $_POST['floor_name'] ?? '';
+        $userId = $_SESSION['user']['id'] ?? 1;
+
+        BuildingController::addFloor($conn, $buildingId, $floorName, $userId);
+    break;
+
+    case 'getFloors':
+        if ($method !== 'GET') response(false, "Method not allowed");
+
+        $buildingId = $_GET['building_id'] ?? 0;
+        BuildingController::getFloors($conn, $buildingId);
+    break;
+
+    // --- Update Floor ---
+    case 'update_floor':
+        $floor_id = intval($_POST['floor_id'] ?? 0);
+        $floor_name = $_POST['floor_name'] ?? '';
+        BuildingController::updateFloor($conn, $floor_id, $floor_name);
+    break;
+
+    // --- Delete Floor ---
+    case 'delete_floor':
+        if ($method !== 'POST') response(false, "Method not allowed");
+
+        $floor_id = intval($_POST['floor_id'] ?? 0);
+        BuildingController::deleteFloor($conn, $floor_id);
+    break;
+
+    
+    // --- ROOM ---
+    case 'insert_room':
+        if ($method !== 'POST') response(false, "Method not allowed");
+
+        $buildingId = $_POST['building_id'] ?? 0;
+        $floorId = $_POST['floor_id'] ?? 0; // optional if room not tied to floor
+        $roomName = $_POST['room_name'] ?? '';
+        $userId = $_SESSION['user']['id'] ?? 1;
+
+        BuildingController::addRoom($conn, $buildingId, $floorId, $roomName, $userId);
+    break;
+
+    case 'getAllBuildingFloorsRooms':
+        if ($method !== 'GET') response(false, "Method not allowed");
+
+        BuildingController::getAllBuildingFloorsRooms($conn);
+    break;
+
+    // --- Update Room ---
+    case 'update_room':
+        $room_id = intval($_POST['room_id'] ?? 0);
+        $room_name = $_POST['room_name'] ?? '';
+        BuildingController::updateRoom($conn, $room_id, $room_name);
     break;
     
-         // --- INSTRUCTOR CRUD ---
+    // --- Delete Room ---
+    case 'delete_room':
+        if ($method !== 'POST') response(false, "Method not allowed");
+
+        $room_id = intval($_POST['room_id'] ?? 0);
+        BuildingController::deleteRoom($conn, $room_id);
+    break;
+
+    case 'getRooms':
+        if ($method !== 'GET') response(false, "Method not allowed");
+        $buildingId = $_GET['building_id'] ?? 0;
+        $floorId = $_GET['floor_id'] ?? 0;
+        BuildingController::getRooms($conn, $buildingId, $floorId);
+    break;
+
+
+
+    // --- INSTRUCTOR CRUD ---
     case 'instructor_getall':
         if ($method !== 'GET') response(false, "Method not allowed");
         InstructorController::getAll($conn);
@@ -443,6 +515,129 @@ switch ($endpoint) {
 
     break;
     
+    case 'class_get_by_instructor':
+        if($method !== 'GET') response(false, "Method not allowed");
+
+        $instructor_id = intval($_SESSION['user']['id'] ?? 0);
+        ClassController::getByInstructor($conn, $instructor_id);
+    break;
+
+    case 'class_update':
+        if ($method !== 'POST') response(false, "Method not allowed");
+
+        // Get POST data
+        $id = intval($_POST['id'] ?? 0);
+        $lesson = $_POST['lesson'] ?? '';
+        $class_status = $_POST['class_status'] ?? 'progress';
+        $course_id = intval($_POST['course_id'] ?? 0);
+        $instructor_id = intval($_SESSION['user']['id'] ?? 1);
+        $building_id = intval($_POST['building_id'] ?? 0);
+        $floor_id = intval($_POST['floor_id'] ?? 0);
+        $room_id = intval($_POST['room_id'] ?? 0);
+        $class_type_id = intval($_POST['class_type_id'] ?? 0);
+        $time_id = intval($_POST['time_id'] ?? 0);
+        $term_id = intval($_POST['term_id'] ?? 0);
+
+        ClassController::update(
+            $conn,
+            $id,
+            $lesson,
+            $class_status,
+            $course_id,
+            $instructor_id,
+            $building_id,
+            $floor_id,
+            $room_id,
+            $class_type_id,
+            $time_id,
+            $term_id
+        );
+    break;
+
+
+    case 'create_stu':{
+        if ($method !== 'POST') response(false, "Method not allowed");
+
+        // Get POST data
+        $fullname = $_POST['fullname'] ?? '';
+        $gender = $_POST['gender'] ?? '';
+        $tel = $_POST['tel'] ?? '';
+        $instructor_id = intval($_SESSION['user']['id'] ?? 1);
+        $class_id = intval($_POST['class_id'] ?? null);
+
+        // Call createStu function
+        StudentController::createStu($conn, $fullname, $gender, $tel, $instructor_id, $class_id);
+    }
+
+    case 'transferClass':
+        if ($method !== 'POST') response(false, "Method not allowed");
+
+        $instructor_id = isset($_POST['instructor_id']) ? intval($_POST['instructor_id']) : 1;
+        $class_id = isset($_POST['class_id']) ? intval($_POST['class_id']) : 0;
+
+        if ($class_id <= 0) response(false, "Class ID is required");
+
+        ClassController::transferClass($conn, $class_id, $instructor_id);
+    break;
+
+    case 'get_students_by_class':
+        
+        $class_id = isset($_GET['class_id']) ? intval($_GET['class_id']) : 0;
+        $instructor_id = $_SESSION['user']['id'] ?? 0;
+
+        StudentController::getStudentsByClass($conn, $class_id, $instructor_id);
+    break;
+
+    case 'record_attendance':
+        if ($method !== 'POST') response(false, "Method not allowed");
+
+        $students = $_POST['students'] ?? '';
+        $class_id = $_POST['class_id'] ?? 0;
+        // $att_record_date = $_POST['att_record_date'] ?? null;
+
+        if(empty($students)) {
+            response(false, "No student data provided");
+        }
+
+        // Decode JSON string to PHP array
+        $studentsArray = json_decode($students, true);
+        if(!$studentsArray || !is_array($studentsArray)) {
+            response(false, "Invalid student data format");
+        }
+
+        StudentController::recordsAttBatch($conn, $studentsArray,$class_id);
+    break;
+
+    case 'check_today_attendance':
+        $class_id = $_GET['class_id'] ?? '';
+        $date = $_GET['date'] ?? '';
+        StudentController::isAttendanceRecordedToday($conn, $class_id, $date);
+    break;
+
+    case 'get_students_attendance_summary':
+        $class_id = isset($_GET['class_id']) ? intval($_GET['class_id']) : 0;
+        if (empty($class_id)) response(false, "Class ID is required");
+        StudentController::getStudentsAttendanceSummary($conn, $class_id);
+    break;
+
+   case 'update_student':
+        $stu_id = isset($_POST['stu_id']) ? intval($_POST['stu_id']) : 0;
+        $full_name = isset($_POST['full_name']) ? trim($_POST['full_name']) : '';
+        $gender = isset($_POST['gender']) ? trim($_POST['gender']) : '';
+        $tel = isset($_POST['tel']) ? trim($_POST['tel']) : '';
+
+        StudentController::updateStudent($conn, $stu_id, $full_name, $gender, $tel);
+    break;
+
+    case 'delete_student':
+        $stu_id = isset($_POST['stu_id']) ? intval($_POST['stu_id']) : 0;
+        $class_id = isset($_POST['class_id']) ? intval($_POST['class_id']) : 0;
+
+        if (empty($stu_id)) response(false, "Student ID is required");
+        // You can optionally validate class_id too
+        StudentController::deleteStudent($conn, $stu_id, $class_id);
+    break;
+          
     default:
         response(false, "Invalid endpoint");
 }

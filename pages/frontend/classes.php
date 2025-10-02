@@ -1,3 +1,4 @@
+
 <div>
     <h3 class="mb-0">Attendence System</h3>
     <p class="text-secondary mb-3">Manage your class like manage your oun heart</p>
@@ -73,7 +74,7 @@
             
             <div class="col-3 pb-3">
                 <form action="" class="d-flex border rounded bg-white">
-                    <input type="text" placeholder="Search Class..." class="form-control shadow-none border-0 bg-transparent">
+                    <input id="search-class" type="text" placeholder="Search Class..." class="form-control shadow-none border-0 bg-transparent">
                     <button class="btn ">
                         <i class="bi bi-search"></i>
                     </button>
@@ -82,149 +83,14 @@
 
             <button class="btn rounded btn-light border" data-bs-toggle="modal" data-bs-target="#addClassModal">Add Class +</button>                 
         </div>
+        <!-- Success Alert -->
+        <div id="successAlert" class="alert alert-success alert-dismissible fade show mt-3 " style="display:none;" role="alert">
+            <span id="successMessage"></span>
+            <button type="button" class="btn-close shadow-none" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
 
-        <div class="row g-4">
-
-            <!-- Card 1 -->
-            <div class="col-md-4">
-                <div class="card shadow-sm border rounded h-100">
-
-                    <div class="card-body p-3">
-                        <!-- Header -->
-                        <div class="d-flex align-items-center mb-2 justify-content-between">
-                            <div class="me-3 d-flex align-items-center fs-2">
-                                <i class="bi bi-house-fill text-etec-color me-2"></i>
-                                <h5 class="mb-0 fw-bold">C and C++/OOP/Algorithsm</h5>
-                            </div>
-
-                            <!-- Dropdown -->
-                            <div class="dropdown">
-                                <button class="btn btn-sm border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-three-dots-vertical fs-5"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end shadow-sm py-0 overflow-hidden">
-                                    <li class="">
-                                        <button class="btn border-0 py-2 rounded-0 w-100 text-start" data-bs-toggle="modal" data-bs-target="#updateClassModal">
-                                            Update
-                                        </button>                        
-                                    </li>
-                                    <li class="">
-                                        <button class="btn border-0 py-2 rounded-0 w-100 text-start">
-                                            Add Student
-                                        </button>                        
-                                    </li>
-                                    <li class="">
-                                        <button class="btn btn-secondary border-0 py-2 rounded-0 w-100 text-start">
-                                            Pre-End
-                                        </button>                        
-                                    </li>
-                                    <li class="">
-                                        <button class="btn btn-danger border-0 py-2 rounded-0 w-100 text-start">
-                                            End
-                                        </button>                        
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- Content -->
-                        <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
-                            <div class="col-4">
-                                <p class="m-0">
-                                    <strong>Class Lessons:</strong>
-                                </p>
-                            </div>
-                            <div class="col-8">
-                                <span class="px-2 bg-secondary-subtle text-dark rounded">Introduction</span>
-                            </div>
-                        </div>
-                        
-                        <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
-                            <div class="col-4">
-                                <p class="m-0">
-                                    <strong>Located: </strong>
-                                </p>
-                            </div>
-                            <div class="col-8">
-                                <p class="m-0">
-                                    ETEC2, FLOOR2 - <span class="text-etec-color fw-medium">(Room 1)</span>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
-                            <div class="col-4">
-                                <p class="m-0">
-                                    <strong>Status:</strong>
-                                </p>
-                            </div>
-                            <div class="col-8">
-                                <p class="m-0">
-                                    <span class="text-etec-color fw-medium">Physical</span>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
-                            <div class="col-4">
-                                <p class="m-0">
-                                    <strong>Term: </strong>
-                                </p>
-                            </div>
-                            <div class="col-8">
-                                <p class="m-0">
-                                    Mon - Thu
-                                </p>
-                            </div>
-                        </div>
-
-
-                        <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
-                            <div class="col-4">
-                                <p class="m-0">
-                                    <strong>Time: </strong>
-                                </p>
-                            </div>
-                            <div class="col-8">
-                                <p class="m-0 fw-medium text-success">
-                                    9:00 am - 10:30 am
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
-                            <div class="col-4">
-                                <p class="m-0">
-                                    <strong>Total Stu: </strong>
-                                </p>
-                            </div>
-                            <div class="col-8">
-                                <p class="m-0">
-                                    12
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
-                            <div class="col-4">
-                                <p class="m-0">
-                                    <strong>Class Status: </strong>
-                                </p>
-                            </div>
-                            <div class="col-8">
-                                <span class="badge bg-primary fw-medium">Progress</span>
-                            </div>
-                        </div>
-    
-                        <!-- Footer -->
-                        <a href="#" class="btn btn-light border w-100 mt-3 text-etec-color">
-                            View Class
-                        </a>
-
-                    </div>
-                </div>
-            </div>
-
+        <div class="row g-4" id="classes-container">
+        
         </div>
     </div>
 
@@ -297,7 +163,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Add Class</button>
+                    <button type="submit" class="btn btn-primary">
+                        Add Class
+                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                    </button>
                 </div>
             </form>
             </div>
@@ -308,67 +177,70 @@
     <div class="modal fade" id="updateClassModal" tabindex="-1" aria-labelledby="updateClassModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
-                <form>
+                <form id="updateClassForm">
                     <div class="modal-header">
                         <h5 class="modal-title" id="updateClassModalLabel">Update Class</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
+                        <input type="hidden" id="classid">
                         <div class="d-flex mb-3 border-bottom pb-3">
                             <div class="col-4 pe-2">
-                                <label class="form-label text-etec-color">Class Name</label>
-                                <select class="form-select shadow-none border">
-                                    <option selected>C and C++/OOP/Algorithm</option>
+                                <label class="form-label text-etec-color">Course</label>
+                                <select id="updateCourseSelect" class="form-select shadow-none border">
+                                    <option value="" selected disabled>Select Course</option>
                                 </select>
                             </div>
                             <div class="col-4 pe-2">
-                                <label class="form-label text-etec-color">Status</label>
-                                <select class="form-select shadow-none border">
-                                    <option selected>Physical</option>
-                                    <option>Online</option>
+                                <label class="form-label text-etec-color">Lesson</label>
+                                <select id="updateLessonSelect" class="form-select shadow-none border">
+                                    <option value="" selected disabled>Select Lesson</option>
                                 </select>
                             </div>
                             <div class="col-4">
-                                <label class="form-label text-etec-color">Lessons</label>
-                                <select class="form-select shadow-none border">
-                                    <option selected>Introduction</option>
+                                <label class="form-label text-etec-color">Status</label>
+                                <select id="updateStatusSelect" class="form-select shadow-none border">
+                                    <option value="" selected disabled>Select Status</option>
                                 </select>
                             </div>
                         </div>
+
                         <div class="d-flex mb-3">
                             <div class="col-4 pe-2">
                                 <label class="form-label text-etec-color">Building</label>
-                                <select class="form-select shadow-none border">
-                                    <option selected>ETEC2</option>
+                                <select id="updateBuildingSelect" class="form-select shadow-none border">
+                                    <option value="" selected disabled>Select Building</option>
                                 </select>
                             </div>
                             <div class="col-4 pe-2">
                                 <label class="form-label text-etec-color">Floor</label>
-                                <select class="form-select shadow-none border">
-                                    <option selected>Floor 2</option>
+                                <select id="updateFloorSelect" class="form-select shadow-none border">
+                                    <option value="" selected disabled>Select Floor</option>
                                 </select>
                             </div>
                             <div class="col-4">
                                 <label class="form-label text-etec-color">Room</label>
-                                <select class="form-select shadow-none border">
-                                    <option selected>Room 1</option>
+                                <select id="updateRoomSelect" class="form-select shadow-none border">
+                                    <option value="" selected disabled>Select Room</option>
                                 </select>
                             </div>
                         </div>
+
                         <div class="d-flex mb-3">
                             <div class="col-6 pe-2">
                                 <label class="form-label text-etec-color">Term</label>
-                                <select class="form-select shadow-none border">
-                                    <option selected>Mon - Thu</option>
+                                <select id="updateTermSelect" class="form-select shadow-none border">
+                                    <option value="" selected disabled>Select Term</option>
                                 </select>
                             </div>
                             <div class="col-6">
                                 <label class="form-label text-etec-color">Time</label>
-                                <select class="form-select shadow-none border">
-                                    <option selected>9:00 am - 10:30 am</option>
+                                <select id="updateTimeSelect" class="form-select shadow-none border">
+                                    <option value="" selected disabled>Select Time</option>
                                 </select>
                             </div>
                         </div>
+
                         <p class="text-secondary">Update the details as needed before saving.</p>
                     </div>
                     <div class="modal-footer">
@@ -379,6 +251,90 @@
             </div>
         </div>
     </div>
+
+    <!-- Add Student Modal -->
+    <div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border"> <!-- border + no shadow -->
+            <div class="modal-header border-bottom">
+                <h5 class="modal-title" id="addStudentModalLabel">Add Student</h5>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form id="addStudentForm">
+                <div class="modal-body">
+                <!-- Full Name -->
+                <div class="mb-3">
+                    <label for="fullname" class="form-label">Full Name</label>
+                    <input type="text" class="form-control shadow-none border" id="fullname" name="fullname" placeholder="Enter full name" required>
+                </div>
+
+                <!-- Gender -->
+                <div class="mb-3">
+                    <label for="gender" class="form-label">Gender</label>
+                    <select class="form-select shadow-none border" id="gender" name="gender" required>
+                    <option value="" selected disabled>Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    </select>
+                </div>
+
+                <!-- Telephone -->
+                <div class="mb-3">
+                    <label for="tel" class="form-label">Telephone</label>
+                    <input type="tel" class="form-control shadow-none border" id="tel" name="tel" placeholder="Enter telephone number" required>
+                </div>
+                </div>
+
+                <div class="modal-footer border-top">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary shadow-none">
+                        Add Student
+                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transfer Class Modal -->
+    <div class="modal fade" id="transferClassModal" tabindex="-1" aria-labelledby="transferClassModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border"> <!-- border + no shadow -->
+                <div class="modal-header border-bottom">
+                    <h5 class="modal-title" id="transferClassModalLabel">Transfer Class</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form id="transferClassForm">
+                    <div class="modal-body">
+                        
+                        <!-- Instructor ID -->
+                        <div class="mb-3">
+                            <label for="instructor_id" class="">Instructor ID</label>
+                            <!-- Error message -->
+                            <div id="transferClassError" class="text-danger small mt-2 d-none"></div>
+                            <input type="number" min="0" class="form-control shadow-none border" id="instructor_id" name="instructor_id" placeholder="Enter Instructor ID" required>
+                        </div>
+
+                        
+                    </div>
+
+                    <div class="modal-footer border-top">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">
+                            Transfer
+                            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
 </div>
 
 <script>
@@ -388,10 +344,36 @@
         let roadmaps = [];
         let buildings = [];
         let schedules = [];
+        let allClasses = []; 
+
+        function showAlert(message) {
+            $('#successMessage').text(message);
+            $('#successAlert').stop(true,true).fadeIn();
+            setTimeout(() => $('#successAlert').fadeOut('slow'), 3000);
+        }
+
+        function toggleButtonLoading(button, isLoading, loadingText = 'Loading...') {
+            const $btn = $(button);
+            const $spinner = $btn.find('.spinner-border');
+            const $text = $btn.find('.btn-text');
+
+            if (isLoading) {    
+                $btn.prop('disabled', true);
+                $spinner.removeClass('d-none');
+                $text.text(loadingText);
+            } else {
+                $btn.prop('disabled', false);
+                $spinner.addClass('d-none');
+                $text.text($btn.data('original-text') || 'Add Class');
+            }
+        }
+
 
         // --- Fetch Courses ---
         function getCourses(){
             let $select = $("#courseSelect");
+            let $updateSelect = $('#updateCourseSelect');
+
             $select.prop('disabled', true).html('<option disabled selected>Loading courses...</option>');
 
             $.ajax({
@@ -403,20 +385,26 @@
                         courses = res.data;
 
                         $select.empty().append('<option value="" disabled selected>Select Course</option>');
+                        $updateSelect.empty().append('<option value="" disabled selected>Select Course</option>');
                         $.each(courses, function(index, c){
                             $select.append(`<option value="${c.id}">${c.course}</option>`);
+                            $updateSelect.append(`<option value="${c.id}">${c.course}</option>`);
                         });
 
                         $select.prop('disabled', false); // enable after loading
+                        $updateSelect.prop('disabled', false); // enable after loading
                     } else {
                         $select.html('<option disabled selected>No courses found</option>');
+                        $updateSelect.html('<option disabled selected>No courses found</option>');
                     }
                 },
                 error: function () {
                     $select.html('<option disabled selected>Failed to load courses</option>');
+                    $updateSelect.html('<option disabled selected>Failed to load courses</option>');
                 }
             });
         }
+        getCourses()
 
         // --- Fetch Roadmaps (lessons) ---
         function getRoadmaps() {
@@ -434,174 +422,111 @@
                 }
             });
         }
+        getRoadmaps()
 
         // --- Filter Lessons by Course ---
-        function filterLessonsByCourse(courseId) {
-            let $select = $("#lessonSelect");
+        function filterLessonsByCourse(courseId, target = "add") {
+            // Determine which select to update
+            let $select = (target === "add") ? $("#lessonSelect") : $("#updateLessonSelect");
 
-            // Reset first
-            $select.prop('disabled', true);
-            $select.empty().append('<option value="" disabled selected>Select Lesson</option>');
+            $select.prop('disabled', true).empty().append('<option value="" disabled selected>Select Lesson</option>');
 
-            if(!courseId) return;
+            if (!courseId) return;
 
             const filteredRoadmaps = roadmaps.filter(r => r.course_id == courseId);
             let hasLessons = false;
 
-            if(filteredRoadmaps.length > 0){
-                $.each(filteredRoadmaps, function(index, roadmap){
+            if (filteredRoadmaps.length > 0) {
+                $.each(filteredRoadmaps, function(index, roadmap) {
                     let lessons = roadmap.lessons;
-
-                    if(typeof lessons === 'string'){
+                    if (typeof lessons === 'string') {
                         try { lessons = JSON.parse(lessons); } 
                         catch(e) { lessons = []; }
                     }
 
-                    if(Array.isArray(lessons) && lessons.length > 0){
+                    if (Array.isArray(lessons) && lessons.length > 0) {
                         hasLessons = true;
-                        $.each(lessons, function(i, lesson){
+                        $.each(lessons, function(i, lesson) {
                             $select.append(`<option value="${lesson}">${lesson}</option>`);
                         });
                     }
                 });
             }
 
-            // Disable if no lessons
-            if(!hasLessons){
-                $select.prop('disabled', true);
-                $select.html('<option disabled selected>No lessons for this course</option>');
+            if (!hasLessons) {
+                $select.prop('disabled', true)
+                    .html('<option disabled selected>No lessons for this course</option>');
             } else {
                 $select.prop('disabled', false);
             }
         }
 
-        // --- Event: Course select change ---
-        $("#courseSelect").on("change", function(){
+
+        // For Add Modal
+        $("#courseSelect").on("change", function() {
             const selectedCourseId = $(this).val();
-            filterLessonsByCourse(selectedCourseId);
+            filterLessonsByCourse(selectedCourseId, "add");
         });
 
-
-        // --- Fetch Buildings ---
-        function getBuildings(){
-            let $buildingSelect = $("#buildingSelect");
-            let $floorSelect = $("#floorSelect");
-            let $roomSelect = $("#roomSelect");
-
-            // Disable all selects initially
-            $buildingSelect.prop('disabled', true).html('<option disabled selected>Loading buildings...</option>');
-            $floorSelect.prop('disabled', true).html('<option disabled selected>Select Floor</option>');
-            $roomSelect.prop('disabled', true).html('<option disabled selected>Select Room</option>');
-
-            $.ajax({
-                url: 'api.php?endpoint=building_fetch_all',
-                method: 'GET',
-                dataType: 'json',
-                success: function(res){
-                    if(res.data && res.data.length > 0){
-                        buildings = res.data;
-
-                        $buildingSelect.empty().append('<option value="" disabled selected>Select Building</option>');
-
-                        $.each(buildings, function(index, building){
-                            $buildingSelect.append(`<option value="${building.building_id}">${building.building_name}</option>`);
-                        });
-
-                        $buildingSelect.prop('disabled', false);
-                    } else {
-                        $buildingSelect.html('<option disabled selected>No buildings found</option>');
-                    }
-                },
-                error: function(){
-                    $buildingSelect.html('<option disabled selected>Failed to load buildings</option>');
-                }
-            });
-        }
-
-        // --- When Building Changes ---
-        $("#buildingSelect").on("change", function(){
-            const buildingId = $(this).val();
-            const $floorSelect = $("#floorSelect");
-            const $roomSelect = $("#roomSelect");
-
-            $floorSelect.prop('disabled', true).empty().append('<option disabled selected>Select Floor</option>');
-            $roomSelect.prop('disabled', true).empty().append('<option disabled selected>Select Room</option>');
-
-            if(!buildingId) return;
-
-            const building = buildings.find(b => b.building_id == buildingId);
-            if(building && building.floors.length > 0){
-                $.each(building.floors, function(index, floor){
-                    $floorSelect.append(`<option value="${floor.floor_id}">${floor.floor_name}</option>`);
-                });
-                $floorSelect.prop('disabled', false);
-            } else {
-                $floorSelect.html('<option disabled selected>No floors found</option>');
-            }
+        // For Update Modal
+        $("#updateCourseSelect").on("change", function() {
+            const selectedCourseId = $(this).val();
+            filterLessonsByCourse(selectedCourseId, "update");
         });
 
-        // --- When Floor Changes ---
-        $("#floorSelect").on("change", function(){
-            const floorId = $(this).val();
-            const buildingId = $("#buildingSelect").val();
-            const $roomSelect = $("#roomSelect");
-
-            $roomSelect.prop('disabled', true).empty().append('<option disabled selected>Select Room</option>');
-
-            if(!floorId || !buildingId) return;
-
-            const building = buildings.find(b => b.building_id == buildingId);
-            const floor = building.floors.find(f => f.floor_id == floorId);
-
-            if(floor && floor.rooms.length > 0){
-                $.each(floor.rooms, function(index, room){
-                    $roomSelect.append(`<option value="${room.room_id}">${room.room_name}</option>`);
-                });
-                $roomSelect.prop('disabled', false);
-            } else {
-                $roomSelect.html('<option disabled selected>No rooms found</option>');
-            }
-        });
-
-        // --- Fetch schedules ---
-        function getSchedules(){
+        
+        // --- Fetch schedules (used by both Add + Update modals) ---
+        function getSchedules() {
             let $statusSelect = $("#statusSelect");
             let $termSelect = $("#termSelect");
             let $timeSelect = $("#timeSelect");
 
-            // disable all at start
+            let $updateStatusSelect = $("#updateStatusSelect");
+            let $updateTermSelect = $("#updateTermSelect");
+            let $updateTimeSelect = $("#updateTimeSelect");
+
+            // Disable and show loading state for both
             $statusSelect.prop('disabled', true).html('<option disabled selected>Loading status...</option>');
+            $updateStatusSelect.prop('disabled', true).html('<option disabled selected>Loading status...</option>');
             $termSelect.prop('disabled', true).html('<option disabled selected>Select Term</option>');
             $timeSelect.prop('disabled', true).html('<option disabled selected>Select Time</option>');
+            // $updateTermSelect.prop('disabled', true).html('<option disabled selected>Select Term</option>');
+            // $updateTimeSelect.prop('disabled', true).html('<option disabled selected>Select Time</option>');
 
             $.ajax({
                 url: 'api.php?endpoint=schedule_getall',
                 method: 'GET',
                 dataType: 'json',
-                success: function(res){
-                    if(res.data && res.data.length > 0){
+                success: function(res) {
+                    if (res.data && res.data.length > 0) {
                         schedules = res.data;
-                        // console.table(schedules)
 
-                        // Populate status first
+                        // Get unique statuses
                         let uniqueStatuses = [...new Map(schedules.map(s => [s.class_type_id, s])).values()];
 
+                        // Populate both add & update selects
                         $statusSelect.empty().append('<option value="" disabled selected>Select Status</option>');
+                        $updateStatusSelect.empty().append('<option value="" disabled selected>Select Status</option>');
 
-                        $.each(uniqueStatuses, function(i, s){
+                        $.each(uniqueStatuses, function(i, s) {
                             $statusSelect.append(`<option value="${s.class_type_id}">${s.class_type_name}</option>`);
+                            $updateStatusSelect.append(`<option value="${s.class_type_id}">${s.class_type_name}</option>`);
                         });
 
                         $statusSelect.prop('disabled', false);
+                        $updateStatusSelect.prop('disabled', false);
                     } else {
                         $statusSelect.html('<option disabled selected>No schedules found</option>');
+                        $updateStatusSelect.html('<option disabled selected>No schedules found</option>');
                     }
                 },
-                error: function(){
+                error: function() {
                     $statusSelect.html('<option disabled selected>Failed to load schedules</option>');
+                    $updateStatusSelect.html('<option disabled selected>Failed to load schedules</option>');
                 }
             });
         }
+
 
         // --- When Status changes ---
         $("#statusSelect").on("change", function(){
@@ -667,21 +592,70 @@
 
         // --- Initial load ---
         $("#termSelect, #timeSelect").prop('disabled', true);
+
+        // --- When Update Status changes ---
+        $("#updateStatusSelect").on("change", function(){
+            const statusId = $(this).val();
+            let $termSelect = $("#updateTermSelect");
+            let $timeSelect = $("#updateTimeSelect");
+
+            $termSelect.prop('disabled', true).empty().append('<option disabled selected>Select Term</option>');
+            $timeSelect.prop('disabled', true).empty().append('<option disabled selected>Select Time</option>');
+
+            if(!statusId) return;
+
+            const filtered = schedules.filter(s => s.class_type_id == statusId);
+
+            if(filtered.length > 0){
+                let uniqueTerms = [...new Map(filtered.map(f => [f.term_id, f])).values()];
+
+                $.each(uniqueTerms, function(i, t){
+                    $termSelect.append(`<option value="${t.term_id}">${t.term_name}</option>`);
+                });
+
+                $termSelect.prop('disabled', false);
+            } else {
+                $termSelect.html('<option disabled selected>No terms found</option>');
+            }
+        });
+
+        // --- When Update Term changes ---
+        $("#updateTermSelect").on("change", function(){
+            const termId = $(this).val();
+            const statusId = $("#updateStatusSelect").val();
+            let $timeSelect = $("#updateTimeSelect");
+
+            $timeSelect.prop('disabled', true).empty().append('<option disabled selected>Select Time</option>');
+
+            if(!termId || !statusId) return;
+
+            const filtered = schedules.filter(s => s.class_type_id == statusId && s.term_id == termId);
+
+            if(filtered.length > 0){
+                let times = [];
+                filtered.forEach(f => {
+                    if(f.time_slots){
+                        times = times.concat(f.time_slots.split(", ").map(t => t.trim()));
+                    }
+                });
+
+                let uniqueTimes = [...new Set(times)];
+
+                $.each(uniqueTimes, function(i, time){
+                    $timeSelect.append(`<option value="${time}">${time}</option>`);
+                });
+
+                $timeSelect.prop('disabled', false);
+            } else {
+                $timeSelect.html('<option disabled selected>No times found</option>');
+            }
+        });
+
+
         getSchedules();
 
-        // --- Initial Load ---
-        $("#floorSelect, #roomSelect").prop('disabled', true)
-            .html('<option disabled selected>Select</option>');
-
-        getBuildings();
-        // --- Initial Load ---
-        $("#lessonSelect").prop('disabled', true).html('<option disabled selected>Select Lesson</option>');
-        getCourses();
-        getRoadmaps(); // fetch roadmaps for filtering
-
-
         // --- Handle Add Class Form Submit ---
-       $("#addClassModal form").on("submit", function(e) {
+        $("#addClassModal form").on("submit", function(e) {
             e.preventDefault();
 
             // Collect form values
@@ -697,10 +671,16 @@
             const term_id = parseInt($("#termSelect").val());
 
             // Validation
-            if (!lesson || !class_status || !course_id || !building_id || !floor_id || !room_id || !class_type_id || !time_id || !term_id) {
+            if (!class_status || !course_id || !building_id || !floor_id || !room_id || !class_type_id || !time_id || !term_id) {
                 alert("Please fill all required fields!");
                 return;
             }
+
+            const $btn = $(this);
+            $btn.data('original-text', $btn.find('.btn-text').text()); // store original text
+
+            // Start spinner
+            toggleButtonLoading($btn, true, 'Adding...');
 
             // Send AJAX request
             $.ajax({
@@ -721,9 +701,11 @@
                 },
                 success: function(res) {
                     if(res.status){
-                        alert("Class created successfully!");
+                        // alert("Class created successfully!");
+                        showAlert(res.message)
                         $("#addClassModal").modal('hide');
                         $("#addClassModal form")[0].reset();
+                        fetchAllClasses()
                     } else {
                         alert("Failed to create class: " + res.message);
                     }
@@ -731,10 +713,634 @@
                 error: function(err) {
                     console.error(err);
                     alert("An error occurred while creating the class.");
+                },
+                complete: function () {
+                    // Stop spinner
+                    toggleButtonLoading($btn, false);
                 }
             });
 
         });
+
+        // --- Fetch Buildings ---
+        function getBuildings() {
+            let $select = $("#buildingSelect");
+            let $updateSelect = $('#updateBuildingSelect');
+
+            // Disable and show loading
+            $select.prop('disabled', true).html('<option disabled selected>Loading buildings...</option>');
+
+            $.ajax({
+                url: 'api.php?endpoint=getAllBuildings',
+                method: 'GET',
+                dataType: 'json',
+                success: function(res) {
+                    if (res.status && res.data && res.data.length > 0) {
+                        buildings = res.data; // store globally
+                        console.log(buildings);
+                        
+                        $select.empty().append('<option value="" disabled selected>Select Building</option>');
+                        $updateSelect.empty().append('<option value="" disabled selected>Select Building</option>');
+
+                        $.each(buildings, function(index, b) {
+                            $select.append(`<option value="${b.building_id}">${b.building_name}</option>`);
+                            $updateSelect.append(`<option value="${b.building_id}">${b.building_name}</option>`);
+                        });
+
+                        $select.prop('disabled', false);
+                        $updateSelect.prop('disabled', false);
+                    } else {
+                        $select.html('<option disabled selected>No buildings found</option>');
+                        $updateSelect.html('<option disabled selected>No buildings found</option>');
+                    }
+                },
+                error: function() {
+                    $select.html('<option disabled selected>Failed to load buildings</option>');
+                    $updateSelect.html('<option disabled selected>Failed to load buildings</option>');
+                }
+            });
+        }
+
+        // --- Get Floors by Building ---
+        function getFloors(buildingId) {
+            let $select = $("#floorSelect");
+            let $updateSelect = $('#updateFloorSelect');
+
+            $select.prop("disabled", true).html('<option disabled selected>Loading floors...</option>');
+            $updateSelect.prop("disabled", true).html('<option disabled selected>Select floors</option>');
+
+            $.ajax({
+                url: `api.php?endpoint=getFloors&building_id=${buildingId}`,
+                method: 'GET',
+                dataType: 'json',
+                success: function(res) {
+                    console.log("getFloors response:", res);
+
+                    if (res.status && res.data.length > 0) {
+                        $select.empty().append('<option value="" disabled selected>Select Floor</option>');
+                        res.data.forEach(floor => {
+                            $select.append(`<option value="${floor.id}">${floor.floor}</option>`);
+                            $updateSelect.append(`<option value="${floor.id}">${floor.floor}</option>`);
+                        });
+                        $select.prop("disabled", false);
+                        $updateSelect.prop("disabled", false);
+                    } else {
+                        $select.html('<option disabled selected>No floors found</option>');
+                        $updateSelect.html('<option disabled selected>No floors found</option>');
+                    }
+                },
+                error: function() {
+                    $select.html('<option disabled selected>Failed to load floors</option>');
+                    $updateSelect.html('<option disabled selected>Failed to load floors</option>');
+                }
+            });
+        }
+
+        function getRooms(buildingId, floorId, selectedRoomId = null) {
+            let $select = $("#roomSelect");          // for add modal
+            let $updateSelect = $("#updateRoomSelect"); // for update modal
+
+            $select.prop("disabled", true).html('<option disabled selected>Loading rooms...</option>');
+            $updateSelect.prop("disabled", true).html('<option disabled selected>Loading rooms...</option>');
+
+            $.ajax({
+                url: `api.php?endpoint=getRooms&building_id=${buildingId}&floor_id=${floorId}`,
+                method: 'GET',
+                dataType: 'json',
+                success: function(res) {
+                    if (res.status && res.data.length > 0) {
+                        // ✅ Clear and populate both selects
+                        $select.empty().append('<option value="" disabled selected>Select Room</option>');
+                        $updateSelect.empty().append('<option value="" disabled selected>Select Room</option>');
+
+                        console.log(res.data);
+                        
+                        res.data.forEach(room => {
+                            $select.append(`<option value="${room.room_id}">${room.room_name}</option>`);
+                            $updateSelect.append(`<option value="${room.room_id}">${room.room_name}</option>`);
+                        });
+
+                        $select.prop("disabled", false);
+                        $updateSelect.prop("disabled", false);
+
+                        // ✅ Auto-select correct room in update modal
+                        if (selectedRoomId) {
+                            $updateSelect.val(selectedRoomId);
+
+                            // fallback if not found
+                            if (!$updateSelect.val()) {
+                                const selectedRoom = res.data.find(r => r.room_id == selectedRoomId);
+                                if (selectedRoom) {
+                                    $updateSelect.append(`<option value="${selectedRoomId}" selected>${selectedRoom.room_name}</option>`);
+                                }
+                            }
+                        }
+
+                    } else {
+                        $select.html('<option disabled selected>No rooms found</option>');
+                        $updateSelect.html('<option disabled selected>No rooms found</option>');
+                    }
+                },
+                error: function() {
+                    $select.html('<option disabled selected>Failed to load rooms</option>');
+                    $updateSelect.html('<option disabled selected>Failed to load rooms</option>');
+                }
+            });
+        }
+
+
+
+        // --- Fetch all classes once ---
+        function fetchAllClasses() {
+            $.ajax({
+                url: 'api.php?endpoint=class_get_by_instructor',
+                method: 'GET',
+                dataType: 'json',
+                success: function(res) {
+                    console.log('AJAX Success:', res); // debug output
+                    if(res.status && res.data.length > 0) {
+                        allClasses = res.data; // save data
+                        renderClasses(allClasses); // render all initially
+                    } else {
+                        $('#classes-container').html('<p class="text-center">No classes found.</p>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX Error:', status, error);
+                    console.log('Response:', xhr.responseText);
+                    // alert('Failed to fetch classes. Check console for details.');
+                }
+            });
+        }
+
+        // --- Render cards from array ---
+        function renderClasses(classes) {
+            let container = $('#classes-container');
+            container.empty();
+            
+            if(classes.length === 0) {
+                container.html('<p class="text-center">No classes found.</p>');
+                return;
+            }
+            console.log(classes);
+            
+            classes.forEach(cls => {
+                let card = `
+                <div class="col-md-4">
+                    <div class="card shadow-sm border rounded h-100">
+                        <div class="card-body p-3">
+                            <div class="d-flex align-items-center mb-2 justify-content-between">
+                                <div class="me-3 d-flex align-items-center fs-2">
+                                    <i class="bi bi-house-fill text-etec-color me-2"></i>
+                                    <h5 class="mb-0 fw-bold">${cls.course_name}</h5>
+                                </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm border-0" type="button" data-bs-toggle="dropdown">
+                                        <i class="bi bi-three-dots-vertical fs-5"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end shadow-sm py-0 overflow-hidden">
+                                        <li>
+                                            <button 
+                                                data-id="${cls.id}"
+                                                data-course_id = "${cls.course_id}"
+                                                data-course_name = "${cls.course_name}"
+                                                
+                                                data-lesson = "${cls.lesson}"
+                                                
+                                                data-building_id = "${cls.building_id}"
+                                                data-building_name = "${cls.building_name}"
+
+                                                data-floor_id = "${cls.floor_id}"
+                                                data-floor = "${cls.floor}"
+
+                                                data-room_id = "${cls.room_id}"
+                                                data-room = "${cls.room}"
+                                                
+                                                data-class_type_id = "${cls.class_type_id}"
+                                                data-class_type = "${cls.class_type}"
+
+                                                data-term_id = "${cls.term_id}"
+                                                data-term = "${cls.term}"
+
+                                                data-time_id = "${cls.time_id}"
+                                                data-time = "${cls.time}"
+
+
+                                                class="btn border-0 py-2 w-100 text-start update-class-btn" data-bs-toggle="modal" data-bs-target="#updateClassModal">
+                                                Update
+                                            </button>
+                                        </li>
+                                        <li><button class="btn border-0 py-2 w-100 text-start addStu" data-id="${cls.id}" data-bs-toggle="modal" data-bs-target="#addStudentModal">Add Student</button></li>
+                                        <li><button class="btn btn-dark border-0 py-2 w-100 text-start rounded-0 transferclassbnt" data-id="${cls.id}" data-bs-toggle="modal" data-bs-target="#transferClassModal">Transfer</button></li>
+                                        <li><button class="btn btn-secondary border-0 py-2 w-100 text-start rounded-0">Pre-End</button></li>
+                                        <li><button class="btn btn-danger border-0 py-2 w-100 text-start rounded-0">End</button></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
+                                <div class="col-4"><strong>Class Lessons:</strong></div>
+                                <div class="col-8">
+                                    <span class="px-2 bg-secondary-subtle text-dark rounded"> 
+                                        ${cls.lesson && cls.lesson.trim() !== "" ? cls.lesson : "No lesson"}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
+                                <div class="col-4"><strong>Building:</strong></div>
+                                <div class="col-8">
+                                    <p class="m-0 fw-meduim">${cls.building_name}</p>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
+                                <div class="col-4"><strong>FLoor & Room:</strong></div>
+                                <div class="col-8">${cls.floor_name} - <span class="text-etec-color fw-medium">Room: (${cls.room_name})</span></div>
+                            </div>
+
+                            <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
+                                <div class="col-4"><strong>Status:</strong></div>
+                                <div class="col-8"><span class="text-etec-color fw-medium">${cls.class_type}</span></div>
+                            </div>
+
+                            <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
+                                <div class="col-4"><strong>Term:</strong></div>
+                                <div class="col-8">${cls.term_name}</div>
+                            </div>
+
+                            <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
+                                <div class="col-4"><strong>Time:</strong></div>
+                                <div class="col-8 text-success fw-medium">${cls.time}</div>
+                            </div>
+
+                            <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
+                                <div class="col-4"><strong>Total Stu:</strong></div>
+                                <div class="col-8">${cls.total_stu}</div>
+                            </div>
+
+                            <a href="pages/frontend/students.php" 
+                                class="view-class"
+                                data-id="${cls.id}">
+                                <button class="btn btn-light border w-100 mt-3 text-etec-color">
+                                    View Class
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                `;
+                container.append(card);
+            });
+        }
+
+        // --- Filter on search input ---
+        $('#search-class').on('input', function() {
+            let keyword = $(this).val().toLowerCase();
+            let filtered = allClasses.filter(cls => cls.lesson.toLowerCase().includes(keyword));
+            renderClasses(filtered);
+        });
+
+        // When Update Building changes
+        $("#updateBuildingSelect").on("change", function() {
+            const buildingId = $(this).val();
+            const $floorSelect = $("#updateFloorSelect");
+            const $roomSelect = $("#updateRoomSelect");
+
+            if (!buildingId) {
+                $floorSelect.prop("disabled", true).html('<option disabled selected>Select Floor</option>');
+                $roomSelect.prop("disabled", true).html('<option disabled selected>Select Room</option>');
+                return;
+            }
+
+            // Fetch floors for selected building
+            getFloors(buildingId);
+
+            // Clear and disable room until floor is selected
+            $roomSelect.prop("disabled", true).html('<option disabled selected>Select Room</option>');
+        });
+
+        // --- When Building changes ---
+        $("#buildingSelect").on("change", function() {
+            const buildingId = $(this).val();
+            const $floorSelect = $("#floorSelect");
+            if (!buildingId) {
+                // If no building selected, disable the floor select
+                $floorSelect.prop("disabled", true)
+                            .html('<option disabled selected>Select Floor</option>');
+                return;
+            }
+            getFloors(buildingId); // Load floors for selected building
+        });
+
+        // Example usage after selecting floor
+        $("#floorSelect").on("change", function() {
+            const buildingId = $("#buildingSelect").val();
+            const floorId = $(this).val();
+
+            const $roomSelect = $("#roomSelect");
+            if (!buildingId && floorId) {
+                // If no building selected, disable the floor select
+                $roomSelect.prop("disabled", true)
+                            .html('<option disabled selected>Select Room</option>');
+                return;
+            }
+
+            getRooms(buildingId, floorId);
+        });
+
+        // When Update Floor changes
+        $("#updateFloorSelect").on("change", function() {
+            const floorId = $(this).val();
+            const buildingId = $("#updateBuildingSelect").val();
+            const $roomSelect = $("#updateRoomSelect");
+
+            if (!floorId || !buildingId) {
+                $roomSelect.prop("disabled", true).html('<option disabled selected>Select Room</option>');
+                return;
+            }
+
+            // Fetch rooms for selected building + floor
+            getRooms(buildingId, floorId);
+        });
+
+
+        $("#lessonSelect").prop("disabled", true)
+                            .html('<option disabled selected>Select Lesson</option>');
+        $("#roomSelect").prop("disabled", true)
+                            .html('<option disabled selected>Select Room</option>');
+        $("#floorSelect").prop("disabled", true)
+                            .html('<option disabled selected>Select Floor</option>');
+        getBuildings() 
+        fetchAllClasses()
+
+      
+        $(document).on("click", ".update-class-btn", function() {
+
+            const classId = $(this).data("id");
+            const courseId = $(this).data("course_id");
+            const courseName = $(this).data("course_name");
+            const lesson = $(this).data("lesson");
+            const buildingId = $(this).data("building_id");
+            const building = $(this).data("building_name");
+            const statusId = $(this).data("class_type_id");
+            const termId = $(this).data("term_id");
+            const termName = $(this).data("term");
+            const timeId = $(this).data("time_id");
+            const timeName = $(this).data("time");
+            const floorId = $(this).data("floor_id");
+            const floorName = $(this).data("floor_name");
+            const roomId = $(this).data("room_id");
+
+            // console.log(timeId);
+            
+            // --- Set course, lesson, building, and status ---
+            $("#classid").val(classId);
+            $("#updateCourseSelect").val(courseId);
+            filterLessonsByCourse(courseId, "update");
+            $('#updateLessonSelect').val(lesson);
+            $('#updateBuildingSelect').val(buildingId);
+            $('#updateStatusSelect').val(statusId);
+
+            getFloors(buildingId);
+
+            // Wait a little to ensure floors are fetched before setting selected value
+            setTimeout(() => {
+                $('#updateFloorSelect').val(floorId);
+
+                // ✅ Fallback: if floor not found, still show it
+                if (!$('#updateFloorSelect').val()) {
+                    $('#updateFloorSelect').append(`<option value="${floorId}" selected>${floorName}</option>`);
+                }
+            }, 400); // 400ms delay allows the AJAX call to complete
+
+            getRooms(buildingId, floorId, roomId);
+
+            // --- Filter & populate Term Select ---
+            const $termSelect = $("#updateTermSelect");
+            $termSelect.empty().append('<option disabled selected>Select Term</option>');
+
+            const filtered = schedules.filter(s => s.class_type_id == statusId);
+
+            if (filtered.length > 0) {
+                let uniqueTerms = [...new Map(filtered.map(f => [f.term_id, f])).values()];
+
+                $.each(uniqueTerms, function(i, t){
+                    $termSelect.append(`<option value="${t.term_id}">${t.term_name}</option>`);
+                });
+
+                // ✅ Select the correct term
+                $termSelect.val(termId);
+                if (!$termSelect.val()) {
+                    $termSelect.append(`<option value="${termId}" selected>${termName}</option>`);
+                }
+
+                // --- Now populate the Time Select ---
+                const $timeSelect = $("#updateTimeSelect");
+                $timeSelect.empty().append('<option disabled selected>Select Time</option>');
+
+                const timeFiltered = schedules.filter(s => s.class_type_id == statusId && s.term_id == termId);
+
+                if (timeFiltered.length > 0) {
+                    let times = [];
+                    timeFiltered.forEach(f => {
+                        if (f.time_slots) {
+                            times = times.concat(f.time_slots.split(", ").map(t => t.trim()));
+                        }
+                    });
+
+                    // Unique times
+                    const uniqueTimes = [...new Set(times)];
+
+                    $.each(uniqueTimes, function(i, t){
+                        $timeSelect.append(`<option value="${t}">${t}</option>`);
+                    });
+
+                    // ✅ Select correct time
+                    $timeSelect.val(timeName);
+                    if (!$timeSelect.val()) {
+                        $timeSelect.append(`<option value="${timeId}" selected>${timeName}</option>`);
+                    }
+                } else {
+                    $timeSelect.html('<option disabled selected>No times found</option>');
+                }
+
+            } else {
+                $termSelect.html('<option disabled selected>No terms found</option>');
+            }
+
+        });
+
+        $("#updateClassForm").on("submit", function(e){
+            e.preventDefault();
+
+            const data = {
+                id: $("#classid").val(),
+                lesson: $("#updateLessonSelect").val(),
+                class_status:"progress",
+                course_id: $("#updateCourseSelect").val(),
+                building_id: $("#updateBuildingSelect").val(),
+                floor_id: $("#updateFloorSelect").val(),
+                room_id: $("#updateRoomSelect").val(),
+                class_type_id: $("#updateStatusSelect").val(),
+                time_id: $("#updateTimeSelect").val(),
+                term_id: $("#updateTermSelect").val()
+            };
+
+            // console.log(data);
+            
+
+            $.ajax({
+                url: "api.php?endpoint=class_update",
+                method: "POST",
+                data: data,
+                dataType: "json",
+                success: function(res){
+                    if(res.status){
+                        // alert(res.message);
+                        showAlert(res.message)
+                        $("#updateClassModal").modal("hide");
+                        // optionally refresh the class list
+                        fetchAllClasses();
+                    } else {
+                        alert(res.message);
+                    }
+                },
+                error: function(err){
+                    console.error(err);
+                    alert("Failed to update class");
+                }
+            });
+        });
+
+        $(document).on('click', '.addStu', function() {
+            const classId = $(this).data('id'); // Get class ID from data-id
+            $('#addStudentForm').data('class-id', classId); // Store it in form for later
+        });
+
+        $('#addStudentForm').on('submit', function(e) {
+            e.preventDefault();
+
+            const classId = $(this).data('class-id'); // Get class ID from stored data
+
+            const formData = {
+                fullname: $('#fullname').val(),
+                gender: $('#gender').val(),
+                tel: $('#tel').val(),
+                class_id: classId
+            };
+
+            const $submitBtn = $(this).find('button[type="submit"]');
+
+            // Store original text (for restoring later)
+            if (!$submitBtn.data('original-text')) {
+                $submitBtn.data('original-text', $submitBtn.find('.btn-text').text());
+            }
+
+            // Show loading
+            toggleButtonLoading($submitBtn, true, 'Adding...');
+
+            $.ajax({
+                url: 'api.php?endpoint=create_stu',
+                method: 'POST',
+                data: formData,
+                dataType: 'json',
+                success: function(res) {
+                    if (res.status) {
+                        fetchAllClasses();
+                        showAlert(res.message);
+                        $('#addStudentForm')[0].reset();
+                        // $('#addStudentModal').modal('hide');
+                        // Optionally refresh student list
+                    } else {
+                        console.log(res.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                    alert("Something went wrong!");
+                },
+                complete: function() {
+                    // Hide loading
+                    toggleButtonLoading($submitBtn, false);
+                }
+            });
+        });
+
+        $(document).on('click', '.transferclassbnt', function() {
+            const classId = $(this).data('id');           // get class id from button
+            $('#transferClassForm').data('class-id', classId); // store it in the form
+        });
+
+        $('#transferClassForm').on('submit', function(e) {
+            e.preventDefault();
+
+            const classId = $(this).data('class-id'); // get class ID
+            const instructorId = $('#instructor_id').val();
+            const $errorDiv = $('#transferClassError');
+
+            const $submitBtn = $(this).find('button[type="submit"]');
+
+            // Show spinner/loading
+            toggleButtonLoading($submitBtn, true, 'Transferring...');
+
+            $.ajax({
+                url: 'api.php?endpoint=transferClass', // use endpoint instead of action
+                method: 'POST',
+                data: {
+                    class_id: classId,
+                    instructor_id: instructorId
+                },
+                dataType: 'json',
+                success: function(res) {
+                    if (res.status) {
+                        console.log(res.message);
+                        $('#transferClassForm')[0].reset();
+                        $('#transferClassModal').modal('hide');
+                        // Optionally refresh class list
+                    } else {
+                        console.log(res.message);
+                        $errorDiv.removeClass('d-none').text(res.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                    console.log("Something went wrong!");
+                },
+                complete: function() {
+                    toggleButtonLoading($submitBtn, false);
+                }
+            });
+        });
+
+        $(document).on("click", ".view-class", function(e) {
+            e.preventDefault();
+
+            const url = $(this).attr("href");
+            const classId = parseInt($(this).data("id"));
+
+            if (!classId || classId <= 0) {
+                alert("Class ID missing!");
+                return;
+            }
+
+            // Add timestamp to avoid caching
+            const fullUrl = url.includes("?") 
+                ? `${url}&class_id=${classId}&_=${new Date().getTime()}`
+                : `${url}?class_id=${classId}&_=${new Date().getTime()}`;
+
+            console.log("Loading:", fullUrl);
+
+            // Load students.php into #content-area dynamically
+            $("#content-area").load(fullUrl, function(response, status, xhr) {
+                if (status === "error") {
+                    console.error("Load failed:", xhr.status, xhr.statusText);
+                } else {
+                    console.log("Loaded students for class ID:", classId);
+                }
+            });
+        });
+
 
 
     });
