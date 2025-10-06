@@ -175,33 +175,35 @@
             <i class="bi bi-box-arrow-left me-2"></i> Logout
         </button>
     </div>
+
+    
+
 </aside>
 
 <div class="modal fade" id="logoutModal" >
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      
-      <div class="modal-header">
-        <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
-        <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      
-      <div class="modal-body">
-        Are you sure you want to logout?
-      </div>
-      
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-danger shadow-none" id="btnLogout">
-            Logout
-            <span class="spinner-border spinner-border-sm text-light ms-2 d-none" role="status" aria-hidden="true"></span>
-        </button>
-      </div>
+    <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <div class="modal-body">
+                Are you sure you want to logout?
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger shadow-none" id="btnLogout">
+                    Logout
+                    <span class="spinner-border spinner-border-sm text-light ms-2 d-none" role="status" aria-hidden="true"></span>
+                </button>
+            </div>
 
-    </div>
-  </div>
-</div>
-
+            </div>
+        </div>
+    </div>  
 
 <script>
 $(document).ready(function(){
@@ -286,9 +288,6 @@ $(document).ready(function(){
     // Call once and update periodically
     updatePendingUsersBadge();
     setInterval(updatePendingUsersBadge, 5000); // every 5 seconds
-
-
-
 
     loadProfile();
 });

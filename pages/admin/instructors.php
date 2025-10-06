@@ -4,6 +4,7 @@
         <h3 class="mb-0">Instructor Management</h3>
         <p class="text-secondary mb-0">Manage instructors for your school</p>
     </div>
+
     <div class="d-flex justify-content-between mt-2 align-items-center border-bottom pb-3">       
         <div class="d-flex col-10">
             <div class="col-3">
@@ -14,7 +15,6 @@
                     </button>
                 </form>
             </div>
-          
         </div>
     </div>
 
@@ -24,11 +24,10 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
-    <div class=" p-0 mt-4">
+    <!-- Instructor List -->
+    <div class="p-0 mt-4">
         <div id="instructorList" class="row g-4">
-        <!-- Instructor Card -->
-       
-        <!-- /Instructor Card -->
+            <?php require __DIR__ . '../../../utils/instructor_skelaton.php'; ?>
         </div>
     </div>
 
@@ -42,8 +41,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <input type="hidden" name="" id="deleteAccId">
-                        Are you sure you want to delete this item?
+                        <input type="hidden" id="deleteAccId">
+                        Are you sure you want to delete this instructor?
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -54,22 +53,19 @@
         </div>
     </div>
 </section>
-<!-- Instructor section -->
 
 <script>
 $(document).ready(function () {
-
     let users = [];
 
-    // Show alert
+    // ✅ Show success alert
     function showAlert(message) {
         $('#successMessage').text(message);
         $('#successAlert').stop(true, true).fadeIn();
-        setTimeout(function() {
-            $('#successAlert').fadeOut('slow');
-        }, 3000);
+        setTimeout(() => $('#successAlert').fadeOut('slow'), 3000);
     }
 
+    // ✅ Render instructor cards
     function renderInstructors(list) {
         let html = "";
         list.forEach(inst => {
@@ -88,8 +84,6 @@ $(document).ready(function () {
                                     <span class="badge bg-primary-subtle text-primary px-3 py-1">Instructor</span>
                                     <span class="badge bg-secondary">ID: ${inst.id}</span>
                                 </div>
-
-                                <!-- Dropdown button -->
                                 <div class="position-absolute end-0 top-0">
                                     <div class="dropdown">
                                         <button class="btn border-0 shadow-none p-0" data-bs-toggle="dropdown">
@@ -98,8 +92,8 @@ $(document).ready(function () {
                                         <ul class="dropdown-menu dropdown-menu-end">
                                             <li><a class="btn dropdown-item" href="#">View</a></li>
                                             <li>
-                                                <a data-bs-target="#deleteConfirmModal" data-bs-toggle="modal" 
-                                                class="btn dropdown-item text-danger delete-btn" 
+                                                <a data-bs-target="#deleteConfirmModal" data-bs-toggle="modal"
+                                                class="btn dropdown-item text-danger delete-btn"
                                                 data-id="${inst.id}" href="#">
                                                     Delete
                                                 </a>
@@ -109,7 +103,6 @@ $(document).ready(function () {
                                 </div>
                             </div>
                         </div>
-                    
                         <div class="border-top py-1 mb-0 text-center text-etec-color">
                             <p class="small mb-0">etec center</p>
                         </div>
@@ -120,8 +113,9 @@ $(document).ready(function () {
         $("#instructorList").html(html || "<p class='text-muted'>No instructors found</p>");
     }
 
-    // Fetch and render instructors
+    // ✅ Load instructors with skeleton
     function loadInstructors() {
+        $("#instructorList").load("utils/instructor_skeleton.php"); // show skeleton loader
         $.ajax({
             url: "api.php?endpoint=instructor_getall",
             method: "GET",
@@ -133,13 +127,14 @@ $(document).ready(function () {
                 }
                 users = res.data;
                 renderInstructors(users);
-
-                $("#instructorList").html(html || "<p class='text-muted'>No instructors found</p>");
+            },
+            error: function () {
+                $("#instructorList").html("<p class='text-danger'>Error loading instructors</p>");
             }
         });
     }
 
-    // Search filter
+    // ✅ Search filter
     $(document).on("keyup", "input[placeholder='Search Instructor...']", function () {
         let keyword = $(this).val().toLowerCase();
         let filtered = users.filter(inst => 
@@ -152,30 +147,41 @@ $(document).ready(function () {
 
     loadInstructors();
 
-    // Delete Instructor
-    $(document).on("click", ".delete-btn", function(e){
-        let id = $(this).data("id");
-        $('#deleteAccId').val(id);
+    // ✅ Set instructor ID when delete clicked
+    $(document).on("click", ".delete-btn", function(){
+        $('#deleteAccId').val($(this).data("id"));
     });
 
-    $('#formDeleteAcc').on('submit',function(e){
+    // ✅ Delete instructor with spinner
+    $('#formDeleteAcc').on('submit', function(e){
         e.preventDefault();
         let id = $('#deleteAccId').val();
+        let btn = $('#confirmDeleteBtn');
+        let originalText = btn.text();
+
+        btn.prop('disabled', true)
+           .html('<span class="spinner-border spinner-border-sm me-2"></span>Deleting...');
+
         $.ajax({
             url: "api.php?endpoint=instructor_delete",
             method: "POST",
-            data: {id},
+            data: { id },
             dataType: "json",
             success: function(res){
+                btn.prop('disabled', false).text(originalText);
                 if (res.status) {
-                    showAlert(res.message)
+                    showAlert(res.message);
+                    $('#deleteConfirmModal').modal('hide');
                     loadInstructors();
-                    $('#deleteConfirmModal').modal('hide')
                 } else {
                     alert(res.message);
                 }
+            },
+            error: function(){
+                btn.prop('disabled', false).text(originalText);
+                alert("Error deleting instructor");
             }
         });
-    })
+    });
 });
 </script>

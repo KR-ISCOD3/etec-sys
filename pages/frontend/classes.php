@@ -3,72 +3,7 @@
     <h3 class="mb-0">Attendence System</h3>
     <p class="text-secondary mb-3">Manage your class like manage your oun heart</p>
 
-    <div class="p-0 border-bottom pb-3">
-        <div class="row g-4">
-
-        <!-- Total Class -->
-        <div class="col-md-3">
-            <div class="card border rounded h-100">
-            <div class="card-body d-flex align-items-center justify-content-between px-4">
-                <div>
-                <h6 class="text-muted mb-1">Total Class</h6>
-                <h3 class="fw-medium mb-0">20</h3>
-                </div>
-                <div class="me-3 text-primary fs-1 border-start ps-3">
-                <i class="bi bi-easel2-fill"></i>
-                </div>
-            </div>
-            </div>
-        </div>
-
-        <!-- Total Student -->
-        <div class="col-md-3">
-            <div class="card border rounded h-100">
-                <div class="card-body d-flex align-items-center justify-content-between px-4">
-                    <div>
-                    <h6 class="text-muted mb-1">Total Student</h6>
-                    <h3 class="fw-medium mb-0">150</h3>
-                    </div>
-                    <div class="me-3 text-success fs-1 border-start ps-3">
-                    <i class="bi bi-people-fill"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Male Student -->
-        <div class="col-md-3">
-            <div class="card border rounded h-100">
-                <div class="card-body d-flex align-items-center justify-content-between px-4">
-                    <div>
-                    <h6 class="text-muted mb-1">Male Student</h6>
-                    <h3 class="fw-medium mb-0">80</h3>
-                    </div>
-                    <div class="me-3 text-info fs-1 border-start ps-3">
-                    <i class="bi bi-gender-male"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Female Student -->
-        <div class="col-md-3">
-            <div class="card border rounded h-100">
-                <div class="card-body d-flex align-items-center justify-content-between px-4">
-                    <div>
-                    <h6 class="text-muted mb-1">Female Student</h6>
-                    <h3 class="fw-medium mb-0">70</h3>
-                    </div>
-                    <div class="me-3 text-danger fs-1 border-start ps-3">
-                    <i class="bi bi-gender-female"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        </div>
-    </div>
-
+    <?php require __DIR__.'../../../utils/card_overview.php' ?>
     <div class="p-0 mt-3">
         <div class="d-flex justify-content-between align-items-center">
             
@@ -90,7 +25,7 @@
         </div>
 
         <div class="row g-4" id="classes-container">
-        
+            <?php require __DIR__.'../../../utils/classes_skelaton.php' ?>
         </div>
     </div>
 
@@ -180,7 +115,7 @@
                 <form id="updateClassForm">
                     <div class="modal-header">
                         <h5 class="modal-title" id="updateClassModalLabel">Update Class</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
                         <input type="hidden" id="classid">
@@ -333,6 +268,94 @@
         </div>
     </div>
 
+    <!-- Modal: Pre-End -->
+    <div class="modal fade" id="modalPreEnd" tabindex="-1" aria-labelledby="modalPreEndLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <form id="preEndForm">
+                    <div class="modal-header bg-secondary text-white">
+                        <h5 class="modal-title" id="modalPreEndLabel">Confirm Pre-End</h5>
+                        <button type="button" class="btn-close btn-close-white shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <input type="text" name="" id="classIdconfirm">
+                        <p class="mb-0">
+                            Are you sure you want to <strong>pre-end</strong> this class?  
+                            This action will mark the class as ending soon.
+                        </p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button class="btn btn-secondary" id="confirmPreEndBtn">Confirm Pre-End</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: End Class -->
+    <div class="modal fade" id="modalEnd" tabindex="-1" aria-labelledby="modalEndLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+               <form action="">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="modalEndLabel">Confirm End Class</h5>
+                        <button type="button" class="btn-close btn-close-white shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <p class="mb-0">
+                        <input type="text" name="" id="classIdEnd">
+                        Are you sure you want to <strong>end</strong> this class?  
+                        This action cannot be undone.
+                        </p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger" id="confirmEndBtn">End Class</button>
+                    </div>
+               </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Switch Class Modal -->
+    <div class="modal fade" id="switchTeacherModal" tabindex="-1" aria-labelledby="transferClassModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border"> <!-- border + no shadow -->
+                <div class="modal-header border-bottom">
+                    <h5 class="modal-title" id="switchTeacherModal">Switch Instructor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form id="switchTeacherForm">
+                    <div class="modal-body">
+                        
+                        <!-- Instructor ID -->
+                        <div class="mb-3">
+                            <label for="instructor_id_switch" class="">Instructor ID</label>
+                            <!-- Error message -->
+                            <div id="switchError" class="text-danger small mt-2 d-none"></div>
+                            <input type="number" min="0" class="form-control shadow-none border" id="instructor_id_switch" name="instructor_id_switch" placeholder="Enter Instructor ID" required>
+                        </div>
+
+                        
+                    </div>
+
+                    <div class="modal-footer border-top">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary">
+                            Transfer
+                            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 
 </div>
@@ -500,7 +523,7 @@
                 success: function(res) {
                     if (res.data && res.data.length > 0) {
                         schedules = res.data;
-
+                        
                         // Get unique statuses
                         let uniqueStatuses = [...new Map(schedules.map(s => [s.class_type_id, s])).values()];
 
@@ -565,23 +588,28 @@
 
             if(!termId || !statusId) return;
 
-            // Filter schedules by both status + term
+            // Filter schedules by status + term
             const filtered = schedules.filter(s => s.class_type_id == statusId && s.term_id == termId);
 
             if(filtered.length > 0){
-                // Collect all time slots (split by comma)
-                let times = [];
+                let timePairs = []; // array of {time, id}
+
                 filtered.forEach(f => {
-                    if(f.time_slots){
-                        times = times.concat(f.time_slots.split(", ").map(t => t.trim()));
+                    if(f.time_slots && f.time_id){
+                        let slots = f.time_slots.split(",").map(t => t.trim());
+                        let ids   = f.time_id.split(",").map(t => t.trim());
+
+                        slots.forEach((slot, idx) => {
+                            timePairs.push({time: slot, id: ids[idx] || slot});
+                        });
                     }
                 });
 
-                // Unique times
-                let uniqueTimes = [...new Set(times)];
+                // Remove duplicates based on time_id
+                let uniqueTimes = Array.from(new Map(timePairs.map(tp => [tp.id, tp])).values());
 
-                $.each(uniqueTimes, function(i, time){
-                    $timeSelect.append(`<option value="${time}">${time}</option>`);
+                $.each(uniqueTimes, function(i, t){
+                    $timeSelect.append(`<option value="${t.id}">${t.time}</option>`);
                 });
 
                 $timeSelect.prop('disabled', false);
@@ -589,6 +617,7 @@
                 $timeSelect.html('<option disabled selected>No times found</option>');
             }
         });
+
 
         // --- Initial load ---
         $("#termSelect, #timeSelect").prop('disabled', true);
@@ -629,20 +658,28 @@
 
             if(!termId || !statusId) return;
 
+            // Filter schedules by status and term
             const filtered = schedules.filter(s => s.class_type_id == statusId && s.term_id == termId);
 
             if(filtered.length > 0){
-                let times = [];
+                let timePairs = []; // will hold objects {time, time_id}
+
                 filtered.forEach(f => {
-                    if(f.time_slots){
-                        times = times.concat(f.time_slots.split(", ").map(t => t.trim()));
+                    if(f.time_slots && f.time_id){
+                        let slots = f.time_slots.split(",").map(t => t.trim());
+                        let ids   = f.time_id.split(",").map(t => t.trim());
+                        
+                        slots.forEach((slot, idx) => {
+                            timePairs.push({time: slot, id: ids[idx] || slot});
+                        });
                     }
                 });
 
-                let uniqueTimes = [...new Set(times)];
+                // Remove duplicates based on time_id
+                let uniqueTimes = Array.from(new Map(timePairs.map(tp => [tp.id, tp])).values());
 
-                $.each(uniqueTimes, function(i, time){
-                    $timeSelect.append(`<option value="${time}">${time}</option>`);
+                $.each(uniqueTimes, function(i, t){
+                    $timeSelect.append(`<option value="${t.id}">${t.time}</option>`);
                 });
 
                 $timeSelect.prop('disabled', false);
@@ -650,6 +687,7 @@
                 $timeSelect.html('<option disabled selected>No times found</option>');
             }
         });
+
 
 
         getSchedules();
@@ -737,7 +775,6 @@
                 success: function(res) {
                     if (res.status && res.data && res.data.length > 0) {
                         buildings = res.data; // store globally
-                        console.log(buildings);
                         
                         $select.empty().append('<option value="" disabled selected>Select Building</option>');
                         $updateSelect.empty().append('<option value="" disabled selected>Select Building</option>');
@@ -774,8 +811,6 @@
                 method: 'GET',
                 dataType: 'json',
                 success: function(res) {
-                    console.log("getFloors response:", res);
-
                     if (res.status && res.data.length > 0) {
                         $select.empty().append('<option value="" disabled selected>Select Floor</option>');
                         res.data.forEach(floor => {
@@ -812,8 +847,6 @@
                         // ✅ Clear and populate both selects
                         $select.empty().append('<option value="" disabled selected>Select Room</option>');
                         $updateSelect.empty().append('<option value="" disabled selected>Select Room</option>');
-
-                        console.log(res.data);
                         
                         res.data.forEach(room => {
                             $select.append(`<option value="${room.room_id}">${room.room_name}</option>`);
@@ -849,7 +882,6 @@
         }
 
 
-
         // --- Fetch all classes once ---
         function fetchAllClasses() {
             $.ajax({
@@ -857,12 +889,20 @@
                 method: 'GET',
                 dataType: 'json',
                 success: function(res) {
-                    console.log('AJAX Success:', res); // debug output
                     if(res.status && res.data.length > 0) {
                         allClasses = res.data; // save data
                         renderClasses(allClasses); // render all initially
                     } else {
-                        $('#classes-container').html('<p class="text-center">No classes found.</p>');
+                        $('#classes-container').html(`
+                            <div id="container" class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
+                                <div class="text-center">
+                                    <!-- Optional: SVG or image illustration -->
+                                    <img src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png" alt="Empty" class="mb-3" style="width:80px; opacity:0.5;">
+                                    <h5 class="text-muted">Looks like there are no classes yet</h5>
+                                    <p class="text-muted">You can add a new class to get started.</p>
+                                </div>
+                            </div>
+                        `);
                     }
                 },
                 error: function(xhr, status, error) {
@@ -879,15 +919,40 @@
             container.empty();
             
             if(classes.length === 0) {
-                container.html('<p class="text-center">No classes found.</p>');
+                container.html(`
+                <div id="container" class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
+                    <div class="text-center">
+                        <!-- Optional: SVG or image illustration -->
+                        <img src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png" alt="Empty" class="mb-3" style="width:80px; opacity:0.5;">
+                        <h5 class="text-muted">Looks like there are no classes yet</h5>
+                        <p class="text-muted">You can add a new class to get started.</p>
+                        <button class="btn btn-primary">Add New Class</button>
+                    </div>
+                </div>
+            `);
                 return;
             }
-            console.log(classes);
             
             classes.forEach(cls => {
+                
+                let cardBgClass = cls.class_status === "pre-end" ? "bg-secondary-subtle" : "bg-white";
+                let border = cls.class_status === "pre-end" ? "border-light" : "";
+
+                // Conditionally render the Transfer button
+                let transferBtn = cls.course_id === 44
+                    ? `<li>
+                            <button class="btn btn-dark border-0 py-2 w-100 text-start rounded-0 transferclassbnt" 
+                                data-id="${cls.id}" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#transferClassModal">
+                                Transfer
+                            </button>
+                    </li>` 
+                    : '';
+
                 let card = `
                 <div class="col-md-4">
-                    <div class="card shadow-sm border rounded h-100">
+                    <div class="card shadow-sm border rounded h-100 ${cardBgClass}">
                         <div class="card-body p-3">
                             <div class="d-flex align-items-center mb-2 justify-content-between">
                                 <div class="me-3 d-flex align-items-center fs-2">
@@ -931,14 +996,15 @@
                                             </button>
                                         </li>
                                         <li><button class="btn border-0 py-2 w-100 text-start addStu" data-id="${cls.id}" data-bs-toggle="modal" data-bs-target="#addStudentModal">Add Student</button></li>
-                                        <li><button class="btn btn-dark border-0 py-2 w-100 text-start rounded-0 transferclassbnt" data-id="${cls.id}" data-bs-toggle="modal" data-bs-target="#transferClassModal">Transfer</button></li>
-                                        <li><button class="btn btn-secondary border-0 py-2 w-100 text-start rounded-0">Pre-End</button></li>
-                                        <li><button class="btn btn-danger border-0 py-2 w-100 text-start rounded-0">End</button></li>
+                                        ${transferBtn}
+                                        <li><button class="btn btn-dark border-0 py-2 w-100 text-start rounded-0 swtichTeacherbtn" data-id="${cls.id}" data-bs-toggle="modal" data-bs-target="#switchTeacherModal">Switch Teacher</button></li>
+                                        <li><button class="btn btn-secondary border-0 py-2 w-100 text-start rounded-0 btnPreEnd" data-id="${cls.id}" data-bs-toggle="modal" data-bs-target="#modalPreEnd">Pre-End</button></li>
+                                        <li><button class="btn btn-danger border-0 py-2 w-100 text-start rounded-0 btnEnd"  data-id="${cls.id}" data-bs-toggle="modal" data-bs-target="#modalEnd">End</button></li>
                                     </ul>
                                 </div>
                             </div>
 
-                            <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
+                            <div class="d-flex align-items-center mb-2 pb-2 border-bottom ${border}">
                                 <div class="col-4"><strong>Class Lessons:</strong></div>
                                 <div class="col-8">
                                     <span class="px-2 bg-secondary-subtle text-dark rounded"> 
@@ -947,34 +1013,34 @@
                                 </div>
                             </div>
 
-                            <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
+                            <div class="d-flex align-items-center mb-2 pb-2 border-bottom ${border}">
                                 <div class="col-4"><strong>Building:</strong></div>
                                 <div class="col-8">
                                     <p class="m-0 fw-meduim">${cls.building_name}</p>
                                 </div>
                             </div>
 
-                            <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
+                            <div class="d-flex align-items-center mb-2 pb-2 border-bottom ${border}">
                                 <div class="col-4"><strong>FLoor & Room:</strong></div>
                                 <div class="col-8">${cls.floor_name} - <span class="text-etec-color fw-medium">Room: (${cls.room_name})</span></div>
                             </div>
 
-                            <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
+                            <div class="d-flex align-items-center mb-2 pb-2 border-bottom ${border}">
                                 <div class="col-4"><strong>Status:</strong></div>
                                 <div class="col-8"><span class="text-etec-color fw-medium">${cls.class_type}</span></div>
                             </div>
 
-                            <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
+                            <div class="d-flex align-items-center mb-2 pb-2 border-bottom ${border}">
                                 <div class="col-4"><strong>Term:</strong></div>
                                 <div class="col-8">${cls.term_name}</div>
                             </div>
 
-                            <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
+                            <div class="d-flex align-items-center mb-2 pb-2 border-bottom ${border}">
                                 <div class="col-4"><strong>Time:</strong></div>
                                 <div class="col-8 text-success fw-medium">${cls.time}</div>
                             </div>
 
-                            <div class="d-flex align-items-center mb-2 pb-2 border-bottom">
+                            <div class="d-flex align-items-center mb-2 pb-2 border-bottom ${border}">
                                 <div class="col-4"><strong>Total Stu:</strong></div>
                                 <div class="col-8">${cls.total_stu}</div>
                             </div>
@@ -1076,7 +1142,7 @@
 
       
         $(document).on("click", ".update-class-btn", function() {
-
+            // --- Get data from button ---
             const classId = $(this).data("id");
             const courseId = $(this).data("course_id");
             const courseName = $(this).data("course_name");
@@ -1091,85 +1157,95 @@
             const floorId = $(this).data("floor_id");
             const floorName = $(this).data("floor_name");
             const roomId = $(this).data("room_id");
+            const roomName = $(this).data("room_name");
 
-            // console.log(timeId);
-            
-            // --- Set course, lesson, building, and status ---
+            // --- Set class basic info ---
             $("#classid").val(classId);
             $("#updateCourseSelect").val(courseId);
-            filterLessonsByCourse(courseId, "update");
-            $('#updateLessonSelect').val(lesson);
-            $('#updateBuildingSelect').val(buildingId);
-            $('#updateStatusSelect').val(statusId);
+            filterLessonsByCourse(courseId, "update"); // Populate lessons
+            $("#updateLessonSelect").val(lesson);
+            $("#updateBuildingSelect").val(buildingId);
+            $("#updateStatusSelect").val(statusId);
 
+            // --- Fetch and set floors ---
             getFloors(buildingId);
-
-            // Wait a little to ensure floors are fetched before setting selected value
             setTimeout(() => {
-                $('#updateFloorSelect').val(floorId);
-
-                // ✅ Fallback: if floor not found, still show it
-                if (!$('#updateFloorSelect').val()) {
-                    $('#updateFloorSelect').append(`<option value="${floorId}" selected>${floorName}</option>`);
+                $("#updateFloorSelect").val(floorId);
+                if (!$("#updateFloorSelect").val() && floorId) {
+                    $("#updateFloorSelect").append(`<option value="${floorId}" selected>${floorName}</option>`);
                 }
-            }, 400); // 400ms delay allows the AJAX call to complete
+            }, 400); // Wait for AJAX to complete
 
+            // --- Fetch and set rooms ---
             getRooms(buildingId, floorId, roomId);
 
-            // --- Filter & populate Term Select ---
+            // --- Populate Term Select ---
             const $termSelect = $("#updateTermSelect");
             $termSelect.empty().append('<option disabled selected>Select Term</option>');
 
-            const filtered = schedules.filter(s => s.class_type_id == statusId);
-
-            if (filtered.length > 0) {
-                let uniqueTerms = [...new Map(filtered.map(f => [f.term_id, f])).values()];
-
-                $.each(uniqueTerms, function(i, t){
+            const filteredTerms = schedules.filter(s => s.class_type_id == statusId);
+            if (filteredTerms.length > 0) {
+                // Remove duplicate terms by term_id
+                const uniqueTerms = [...new Map(filteredTerms.map(t => [t.term_id, t])).values()];
+                uniqueTerms.forEach(t => {
                     $termSelect.append(`<option value="${t.term_id}">${t.term_name}</option>`);
                 });
 
-                // ✅ Select the correct term
+                // Select current term
                 $termSelect.val(termId);
-                if (!$termSelect.val()) {
+                if (!$termSelect.val() && termId) {
                     $termSelect.append(`<option value="${termId}" selected>${termName}</option>`);
                 }
 
-                // --- Now populate the Time Select ---
+                // --- Populate Time Select ---
                 const $timeSelect = $("#updateTimeSelect");
                 $timeSelect.empty().append('<option disabled selected>Select Time</option>');
 
                 const timeFiltered = schedules.filter(s => s.class_type_id == statusId && s.term_id == termId);
-
+                
                 if (timeFiltered.length > 0) {
                     let times = [];
+
                     timeFiltered.forEach(f => {
-                        if (f.time_slots) {
-                            times = times.concat(f.time_slots.split(", ").map(t => t.trim()));
-                        }
+                        // Split IDs and names if there are multiple
+                        const ids = f.time_id ? f.time_id.split(",").map(id => id.trim()) : [];
+                        const names = f.time_name
+                            ? f.time_name.split(",").map(n => n.trim())
+                            : f.time_slots
+                            ? f.time_slots.split(",").map(t => t.trim())
+                            : [];
+
+                        // Pair each time_id with its matching time name
+                        names.forEach((name, i) => {
+                            const id = ids[i] || ids[0] || name; // fallback if mismatch
+                            times.push({ id, name });
+                        });
                     });
 
-                    // Unique times
-                    const uniqueTimes = [...new Set(times)];
+                    // Remove duplicates by id + name
+                    const uniqueTimes = Array.from(new Map(times.map(t => [t.id + "_" + t.name, t])).values());
 
-                    $.each(uniqueTimes, function(i, t){
-                        $timeSelect.append(`<option value="${t}">${t}</option>`);
+                    // Populate dropdown
+                    uniqueTimes.forEach(t => {
+                        $timeSelect.append(`<option value="${t.id}">${t.name}</option>`);
                     });
 
-                    // ✅ Select correct time
-                    $timeSelect.val(timeName);
-                    if (!$timeSelect.val()) {
+                    // Select current time
+                    $timeSelect.val(timeId);
+                    if (!$timeSelect.val() && timeId) {
                         $timeSelect.append(`<option value="${timeId}" selected>${timeName}</option>`);
                     }
+
+
                 } else {
-                    $timeSelect.html('<option disabled selected>No times found</option>');
+                    $timeSelect.html('<option disabled selected>No times available</option>');
                 }
-
             } else {
-                $termSelect.html('<option disabled selected>No terms found</option>');
+                $termSelect.html('<option disabled selected>No terms available</option>');
+                $("#updateTimeSelect").html('<option disabled selected>No times available</option>');
             }
-
         });
+
 
         $("#updateClassForm").on("submit", function(e){
             e.preventDefault();
@@ -1186,10 +1262,7 @@
                 time_id: $("#updateTimeSelect").val(),
                 term_id: $("#updateTermSelect").val()
             };
-
-            // console.log(data);
             
-
             $.ajax({
                 url: "api.php?endpoint=class_update",
                 method: "POST",
@@ -1294,7 +1367,6 @@
                 dataType: 'json',
                 success: function(res) {
                     if (res.status) {
-                        console.log(res.message);
                         $('#transferClassForm')[0].reset();
                         $('#transferClassModal').modal('hide');
                         // Optionally refresh class list
@@ -1329,21 +1401,110 @@
                 ? `${url}&class_id=${classId}&_=${new Date().getTime()}`
                 : `${url}?class_id=${classId}&_=${new Date().getTime()}`;
 
-            console.log("Loading:", fullUrl);
-
             // Load students.php into #content-area dynamically
             $("#content-area").load(fullUrl, function(response, status, xhr) {
                 if (status === "error") {
                     console.error("Load failed:", xhr.status, xhr.statusText);
-                } else {
-                    console.log("Loaded students for class ID:", classId);
                 }
             });
         });
 
+        $(document).on('click', '.btnPreEnd', function() {
+            const classId = $(this).data('id'); // Get class ID from data-id
+            $('#classIdEnd').val(classId)
+        });
+        
 
+        $('#preEndForm').on('submit', function(e) {
+            e.preventDefault(); // prevent default form submit
 
+            const classId = $('#classIdconfirm').val(); // get class ID
+            const classStatus = "pre-end"; // status to update
+
+            $.ajax({
+                url: 'api.php?endpoint=update_class_status', // replace with your backend PHP file
+                type: 'POST',
+                data: {
+                    class_id: classId,
+                    class_status: classStatus
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status) {
+                        alert(response.message); // show success message
+                        $('#modalPreEnd').modal('hide'); // close modal
+                        fetchAllClasses() 
+                    } else {
+                        alert("Error: " + response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX Error:", error);
+                }
+            });
+        });
+
+        $(document).on('click', '.btnEnd', function() {
+            const classId = $(this).data('id'); // Get class ID from data-id
+            $('#classIdEnd').val(classId)
+        });
+
+        let selectedClassId = null;
+            // 1️⃣ Capture which class button was clicked
+        $(document).on('click','.swtichTeacherbtn', function() {
+            selectedClassId = $(this).data("id");
+            // alert(selectedClassId)
+            $("#instructor_id_switch").val("");
+            $("#switchError").addClass("d-none").text("");
+            $("#switchTeacherForm button[type='submit'] .spinner-border").addClass("d-none");
+            
+        });
+
+        // 2️⃣ Handle form submission via AJAX
+        $("#switchTeacherForm").on("submit", function(e) {
+            e.preventDefault();
+
+            const instructorId = $("#instructor_id_switch").val().trim();
+            const $errorDiv = $("#switchError");
+            const $submitBtn = $("#switchTeacherForm");
+            const $spinner = $submitBtn.find(".spinner-border");
+
+            
+            if (!selectedClassId || !instructorId) {
+                $errorDiv.text("Please enter a valid Instructor ID.").removeClass("d-none");
+                return;
+            }
+
+            // Show spinner and disable button
+            $spinner.removeClass("d-none");
+            $submitBtn.prop("disabled", true);
+            $errorDiv.addClass("d-none").text("");
+
+            $.ajax({
+                url: "api.php?endpoint=switch_instrutor", // replace with your PHP backend
+                type: "POST",
+                data: {
+                    class_id: selectedClassId,
+                    instructor_id: instructorId
+                },
+                dataType: "json",
+                success: function(data) {
+                    if (data.status) {
+                        showAlert(data.message);
+                        $("#switchTeacherModal").modal("hide");
+                        fetchAllClasses()   
+                    } else {
+                        $errorDiv.text(data.message || "Something went wrong.").removeClass("d-none");
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $errorDiv.text("Network error: " + error).removeClass("d-none");
+                },
+                complete: function() {
+                    $spinner.addClass("d-none");
+                    $submitBtn.prop("disabled", false);
+                }
+            });
+        });
     });
 </script>
-
-

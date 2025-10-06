@@ -158,10 +158,174 @@ class ClassController {
     }
 
     
-    // TRANSFER CLASS
+  // TRANSFER CLASS AND COPY STUDENTS
     public static function transferClass($conn, $class_id, $instructor_id) {
         try {
-            // 1️⃣ Find the class by ID
+            // 1️⃣ Find the old class
+            $stmt = $conn->prepare("SELECT * FROM classes WHERE id = ?");
+            $stmt->bind_param("i", $class_id);
+            $stmt->execute();
+            $class = $stmt->get_result()->fetch_assoc();
+            if (!$class) self::response(false, "Class not found.");
+
+            // 2️⃣ Check instructor
+            $checkInstructor = $conn->prepare("SELECT id, name FROM users WHERE id = ?");
+            $checkInstructor->bind_param("i", $instructor_id);
+            $checkInstructor->execute();
+            $instructor = $checkInstructor->get_result()->fetch_assoc();
+            if (!$instructor) self::response(false, "Instructor not found.");
+
+            if ($class['instructor_id'] == $instructor_id)
+                self::response(false, "This class is already assigned to {$instructor['name']}.");
+
+            // 3️⃣ Create new class
+            $insert = $conn->prepare("
+                INSERT INTO classes 
+                (lesson, total_stu, class_status, course_id, instructor_id, building_id, floor_id, room_id, class_type_id, time_id, term_id, created_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+            ");
+            $insert->bind_param(
+                "sisiiiiiiii",
+                $class['lesson'],
+                $class['total_stu'],
+                $class['class_status'],
+                $class['course_id'],
+                $instructor_id,
+                $class['building_id'],
+                $class['floor_id'],
+                $class['room_id'],
+                $class['class_type_id'],
+                $class['time_id'],
+                $class['term_id']
+            );
+            $insert->execute();
+            $new_class_id = $insert->insert_id;
+
+            // 4️⃣ Copy students from old class to new class in one query
+            $copyStudents = $conn->prepare("
+                INSERT INTO students (full_name, gender, tel, instructor_id, class_id, created_at)
+                SELECT full_name, gender, tel, ?, ?, NOW()
+                FROM students
+                WHERE class_id = ?
+            ");
+            $copyStudents->bind_param("iii",  $instructor_id,$new_class_id, $class_id);
+            $copyStudents->execute();
+
+            self::response(true, "Class and students transferred successfully.", ["new_class_id" => $new_class_id]);
+
+        } catch (Exception $e) {
+            self::response(false, $e->getMessage());
+        }
+    }
+
+
+    // GET TOTAL COUNTS FOR SPECIFIC INSTRUCTOR
+    public static function getTotalsByInstructor($conn, $instructor_id) {
+        try {
+            if (!$instructor_id) {
+                self::response(false, "Instructor ID is required");
+            }
+
+            // ✅ Total Classes taught by this instructor
+            $classQuery = "SELECT COUNT(*) AS total_class FROM classes WHERE instructor_id = ?";
+            $stmt = $conn->prepare($classQuery);
+            $stmt->bind_param("i", $instructor_id);
+            $stmt->execute();
+            $result = $stmt->get_result()->fetch_assoc();
+            $totalClass = (int)$result['total_class'];
+
+            // ✅ Total Students under this instructor
+            $studentQuery = "
+                SELECT COUNT(s.id) AS total_student
+                FROM students s
+                INNER JOIN classes c ON s.class_id = c.id
+                WHERE c.instructor_id = ?
+            ";
+            $stmt = $conn->prepare($studentQuery);
+            $stmt->bind_param("i", $instructor_id);
+            $stmt->execute();
+            $result = $stmt->get_result()->fetch_assoc();
+            $totalStudent = (int)$result['total_student'];
+
+            // ✅ Total Male Students
+            $maleQuery = "
+                SELECT COUNT(s.id) AS total_male
+                FROM students s
+                INNER JOIN classes c ON s.class_id = c.id
+                WHERE c.instructor_id = ? AND s.gender = 'Male'
+            ";
+            $stmt = $conn->prepare($maleQuery);
+            $stmt->bind_param("i", $instructor_id);
+            $stmt->execute();
+            $result = $stmt->get_result()->fetch_assoc();
+            $totalMale = (int)$result['total_male'];
+
+            // ✅ Total Female Students
+            $femaleQuery = "
+                SELECT COUNT(s.id) AS total_female
+                FROM students s
+                INNER JOIN classes c ON s.class_id = c.id
+                WHERE c.instructor_id = ? AND s.gender = 'Female'
+            ";
+            $stmt = $conn->prepare($femaleQuery);
+            $stmt->bind_param("i", $instructor_id);
+            $stmt->execute();
+            $result = $stmt->get_result()->fetch_assoc();
+            $totalFemale = (int)$result['total_female'];
+
+            // ✅ Send JSON response
+            self::response(true, "Totals retrieved successfully", [
+                "total_class" => $totalClass,
+                "total_student" => $totalStudent,
+                "total_male" => $totalMale,
+                "total_female" => $totalFemale
+            ]);
+
+        } catch (Exception $e) {
+            self::response(false, "Error fetching totals: " . $e->getMessage());
+        }
+    }
+
+    // UPDATE CLASS STATUS
+    public static function updateClassStatus($conn, $class_id, $class_status) {
+        try {
+            // Validate inputs
+            if (!$class_id) {
+                self::response(false, "Class ID is required");
+            }
+
+            if (!$class_status) {
+                self::response(false, "Class status is required");
+            }
+
+            // Prepare SQL statement
+            $stmt = $conn->prepare("UPDATE classes SET class_status = ? WHERE id = ?");
+            if (!$stmt) {
+                self::response(false, "Prepare failed: " . $conn->error);
+            }
+
+            $stmt->bind_param("si", $class_status, $class_id);
+
+            // Execute and check result
+            if ($stmt->execute()) {
+                if ($stmt->affected_rows > 0) {
+                    self::response(true, "Class status updated successfully");
+                } else {
+                    self::response(false, "No changes made or class not found");
+                }
+            } else {
+                self::response(false, "Update failed: " . $conn->error);
+            }
+
+        } catch (Exception $e) {
+            self::response(false, "Error updating class status: " . $e->getMessage());
+        }
+    }
+
+    // SWITCH INSTRUCTOR
+    public static function switchInstructor($conn, $class_id, $new_instructor_id) {
+        try {
+            // 1️⃣ Check if the class exists
             $stmt = $conn->prepare("SELECT * FROM classes WHERE id = ?");
             if (!$stmt) throw new Exception("Prepare failed: " . $conn->error);
             $stmt->bind_param("i", $class_id);
@@ -173,56 +337,40 @@ class ClassController {
                 self::response(false, "Class not found. Please select a valid class.");
             }
 
-            // 2️⃣ Check if the instructor exists
+            // 2️⃣ Check if the new instructor exists
             $checkInstructor = $conn->prepare("SELECT id, name FROM users WHERE id = ?");
             if (!$checkInstructor) throw new Exception("Prepare failed: " . $conn->error);
-            $checkInstructor->bind_param("i", $instructor_id);
+            $checkInstructor->bind_param("i", $new_instructor_id);
             $checkInstructor->execute();
             $insResult = $checkInstructor->get_result();
             $instructor = $insResult->fetch_assoc();
 
             if (!$instructor) {
-                self::response(false, "Instructor ID {$instructor_id} not found. Please enter a valid instructor.");
+                self::response(false, "Instructor ID {$new_instructor_id} not found. Please enter a valid instructor.");
             }
 
-            // 3️⃣ Optional: Prevent transferring to same instructor
-            if ($class['instructor_id'] == $instructor_id) {
+            // 3️⃣ Prevent assigning the same instructor again
+            if ($class['instructor_id'] == $new_instructor_id) {
                 self::response(false, "This class is already assigned to {$instructor['name']}.");
             }
 
-            // 4️⃣ Insert a new class row with the same data but new instructor_id
-            $insert = $conn->prepare("
-                INSERT INTO classes 
-                (lesson, total_stu, class_status, course_id, instructor_id, building_id, floor_id, room_id, class_type_id, time_id, term_id, created_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
-            ");
-            if (!$insert) throw new Exception("Prepare insert failed: " . $conn->error);
+            // 4️⃣ Update the instructor_id
+            $update = $conn->prepare("UPDATE classes SET instructor_id = ? WHERE id = ?");
+            if (!$update) throw new Exception("Prepare failed: " . $conn->error);
 
-            $insert->bind_param(
-                "sisiiiiiiii",
-                $class['lesson'],         // lesson
-                $class['total_stu'],      // total_stu
-                $class['class_status'],   // class_status
-                $class['course_id'],      // course_id
-                $instructor_id,           // new instructor
-                $class['building_id'],    // building_id
-                $class['floor_id'],       // floor_id
-                $class['room_id'],        // room_id
-                $class['class_type_id'],  // class_type_id
-                $class['time_id'],        // time_id
-                $class['term_id']         // term_id
-            );
+            $update->bind_param("ii", $new_instructor_id, $class_id);
 
-            if ($insert->execute()) {
-                self::response(true, "Class transferred successfully to {$instructor['name']}", ["new_class_id" => $insert->insert_id]);
+            if ($update->execute()) {
+                self::response(true, "Instructor switched successfully to {$instructor['name']}");
             } else {
-                self::response(false, "Transfer failed: " . $conn->error);
+                self::response(false, "Switch failed: " . $conn->error);
             }
 
         } catch (Exception $e) {
             self::response(false, $e->getMessage());
         }
     }
+
 
 }
 ?>

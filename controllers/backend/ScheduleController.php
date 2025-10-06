@@ -16,17 +16,18 @@ class ScheduleController {
     public static function getAll($conn) {
         $sql = "
             SELECT
-                s.id,
+              s.id,
                 s.class_type_id,
                 s.term_id,
                 ct.name AS class_type_name,
                 t.term AS term_name,
-                GROUP_CONCAT(tm.time ORDER BY tm.id SEPARATOR ', ') AS time_slots
+                GROUP_CONCAT(tm.time ORDER BY tm.id SEPARATOR ', ') AS time_slots,
+                GROUP_CONCAT(tm.id ORDER BY tm.id SEPARATOR ', ') AS time_id
             FROM schedules s
             LEFT JOIN class_types ct ON s.class_type_id = ct.id
             LEFT JOIN terms t ON s.term_id = t.id
             LEFT JOIN times tm ON s.time_id = tm.id
-            GROUP BY s.class_type_id, s.term_id
+            GROUP BY s.class_type_id, s.term_id  
         ";
 
         $result = $conn->query($sql);
@@ -91,6 +92,8 @@ class ScheduleController {
             self::response(false, "Delete failed: " . $conn->error);
         }
     }
+
+   
 
 
 }

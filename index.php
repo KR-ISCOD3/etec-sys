@@ -58,7 +58,7 @@
 
         // Load default page
         // loadPage("pages/admin/buildings.php");
-        loadPage("pages/frontend/classes.php");
+        // loadPage("pages/frontend/classes.php");
 
         // Handle sidebar link clicks
         $(document).on("click", ".nav-link-ajax", function (e) {

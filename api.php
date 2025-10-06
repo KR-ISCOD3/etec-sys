@@ -477,8 +477,12 @@ switch ($endpoint) {
     break;
 
     case 'instructor_delete':
-        if ($method !== 'POST') response(false, "Method not allowed");
-        $id = intval($_POST['id'] ?? 0);
+        $id = $_POST['id'] ?? null;
+
+        if (!$id) {
+            echo json_encode(['status' => false, 'message' => 'No ID received']);
+            exit;
+        }
         InstructorController::delete($conn, $id);
     break;
 
@@ -608,12 +612,6 @@ switch ($endpoint) {
         StudentController::recordsAttBatch($conn, $studentsArray,$class_id);
     break;
 
-    case 'check_today_attendance':
-        $class_id = $_GET['class_id'] ?? '';
-        $date = $_GET['date'] ?? '';
-        StudentController::isAttendanceRecordedToday($conn, $class_id, $date);
-    break;
-
     case 'get_students_attendance_summary':
         $class_id = isset($_GET['class_id']) ? intval($_GET['class_id']) : 0;
         if (empty($class_id)) response(false, "Class ID is required");
@@ -637,7 +635,49 @@ switch ($endpoint) {
         // You can optionally validate class_id too
         StudentController::deleteStudent($conn, $stu_id, $class_id);
     break;
-          
+    
+    case 'save_scores':
+        // decode JSON from AJAX
+        $scores = isset($_POST['scores']) ? json_decode(json_encode($_POST['scores']), true) : [];
+
+        if (empty($scores)) {
+            echo json_encode(["status" => false, "message" => "No scores to save"]);
+            exit;
+        }
+
+        StudentController::saveScoresFast($conn, $scores);
+    break;
+    
+    case 'get_totals_by_instructor':
+        $instructor_id = intval($_SESSION['user']['id'] ?? 1);
+        ClassController::getTotalsByInstructor($conn, $instructor_id);
+    break;
+    
+    case 'update_class_status':
+        $class_id = $_POST['class_id'] ?? null;
+        $class_status = $_POST['class_status'] ?? null;
+
+        ClassController::updateClassStatus($conn, $class_id, $class_status);
+    break;
+
+    case 'switch_instrutor':
+        $class_id = $_POST['class_id'] ?? null;
+        $instructor_id = $_POST['instructor_id'] ?? null;
+
+        ClassController::switchInstructor($conn,$class_id,$instructor_id);
+    break;
+    case 'count_attendance_by_students':
+        // Get stu_ids from frontend (sent as JSON)
+        $stu_ids = json_decode($_POST['stu_ids'] ?? '[]', true);
+
+        StudentController::countAttendanceByStudents($conn, $stu_ids);
+    break;    
+    case 'is_attendance_recorded_today':
+        $class_id = $_GET['class_id'] ?? null;
+        $date = $_GET['date'] ?? date('Y-m-d'); // default to today
+        StudentController::isAttendanceRecordedToday($conn, $class_id, $date);
+    break;
+
     default:
         response(false, "Invalid endpoint");
 }

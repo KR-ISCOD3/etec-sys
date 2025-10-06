@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class Result</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="./assets/css/style.css">
+
+<style>
+    body {
+        background: #f8f9fa;
+        font-family: 'Khmer OS Siemreap', Arial, sans-serif;
+    }
+
+  
+
+    /* Excel-like table */
+    table {
+        border-collapse: collapse !important;
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid #000 !important;
+        vertical-align: middle !important;
+        font-size: 13px;
+        /* padding: 2px 4px; */
+    }
+
+    th {
+        background-color: #e9ecef;
+        font-weight: bold;
+        text-align: center;
+        font-size: 18px;
+    }
+
+    td {
+        text-align: center;
+    }
+
+    /* Header and footer */
+    .footer img { width: 120px; }
+    .stamp img { width: 130px; }
+
+    /* Ensure sharp PDF */
+    #content {
+        transform: scale(1);
+        transform-origin: top left;
+    }
+</style>
+</head>
+
+<body>
+<div class="container">
+    <div class="mb-3 text-end">
+        <button id="downloadBtn" class="btn btn-primary">Download PDF</button>
+    </div>
+
+    <div id="content" class="bg-white p-3 rounded">
+        <!-- Header -->
+        <div class="d-flex mb-2">
+            <div class="col-2 text-center font-custom">
+                <img src="./assets/etec.png" alt="ETEC Center Logo" style="width:70px;">
+                <p class="mb-0 fw-bold text-uppercase font-custom">ETEC Center</p>
+                <p class="mb-0 font-custom">Build your IT</p>
+            </div>
+            <div class="col-9 text-center pt-3 fs-5">
+                <p class="kh-font mb-2 fw-bold">លទ្ធផលនៃការប្រលងបញ្ចប់</p>
+                <p class="mb-0 kh-font fw-bold">
+                    វគ្គសិក្សា៖ <span class="fw-medium">Basic IT (C++ and Network)</span> &nbsp;&nbsp;
+                    ម៉ោងសិក្សា៖ <span class="fw-medium">14:00-15:15</span> &nbsp;&nbsp;
+                    ថ្ងៃ៖ <span class="text-danger" id="class-date"></span>
+                </p>
+            </div>
+        </div>  
+
+        <!-- Table -->
+        <div class="table-responsive mt-3">
+            <table class="table table-bordered text-center mb-1">
+                <thead class="table-secondary">
+                    <tr class="kh-font">
+                        <th>No</th>
+                        <th>Full Name</th>
+                        <th>Gender</th>
+                        <th>Attendance</th>
+                        <th>Activity</th>
+                        <th>Exam</th>
+                        <th>Total</th>
+                        <th>Result</th>
+                        <th>Other</th>
+                    </tr>
+                </thead>
+                <tbody id="student-rows">
+                    <!-- 12 rows dynamically generated -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="d-flex justify-content-between mt-2">
+            <div class="stamp col-2 text-center kh-font">
+                <p class="m-0">បានឃើញ និង ឯកភាព</p>
+                <p class="m-0 mb-3">នាយកមជ្ឈមណ្ឌល</p>
+                <img src="./assets/stemp.png" alt="Stamp">
+            </div>
+            <div class="signature col-4">
+                <div class="text-center kh-font" id="dynamic-date-signature">
+                    <!-- Dynamic date & signature inserted by jQuery -->
+                </div>
+                <p class="kh-font mt-3 pt-5 text-center">គ្រូបង្រៀន៖ <span class="fs-6 px-2" id="teacher-name">Kung Norasmey</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery and html2pdf.js -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    // Khmer month names
+    const khMonths = ["មករា", "កុម្ភៈ", "មីនា", "មេសា", "ឧសភា", "មិថុនា",
+                      "កក្កដា", "សីហា", "កញ្ញា", "តុលា", "វិច្ឆិកា", "ធ្នូ"];
+
+    // Convert Arabic digits to Khmer digits
+    function toKhmerDigits(number) {
+        const khDigits = ['០','១','២','៣','៤','៥','៦','៧','៨','៩'];
+        return number.toString().split('').map(d => khDigits[d] || d).join('');
+    }
+
+    // Format Khmer date
+    function formatKhmerDate(date = new Date()) {
+        const day = toKhmerDigits(date.getDate());
+        const month = khMonths[date.getMonth()];
+        const year = toKhmerDigits(date.getFullYear());
+        return `ធ្វើនៅភ្នំពេញ, ថ្ងៃទី ${day} ខែ ${month} ឆ្នាំ ${year}`;
+    }
+
+    // Insert date and signature
+    $('#dynamic-date-signature').html(`
+        <p>${formatKhmerDate()}</p>
+        <p>ហត្ថលេខានិងឈ្មោះគ្រូ</p>
+    `);
+
+    // Class date in normal format
+    $('#class-date').text(new Date().toLocaleDateString('en-GB'));
+
+    // Generate 12 rows
+    const tbody = $('#student-rows');
+    for (let i = 1; i <= 12; i++) {
+        tbody.append(`
+            <tr class="small font-custom">
+                <td style="padding: 4px;">${i}</td>
+                <td style="padding: 4px;" class="fw-bold">STUDENT ${i}</td>
+                <td style="padding: 4px;" class="text-danger">${i % 2 === 0 ? 'Male' : 'Female'}</td>
+                <td style="padding: 4px;">0</td>
+                <td style="padding: 4px;">0</td>
+                <td style="padding: 4px;">0</td>
+                <td style="padding: 4px;">0</td>
+                <td style="padding: 4px;">-</td>
+                <td style="padding: 4px;"></td>
+            </tr>
+        `);
+    }
+
+    // High-quality PDF (landscape)
+    $('#downloadBtn').click(function() {
+        const element = document.getElementById("content");
+        const opt = {
+            margin: 0.2,
+            filename: 'class_result.pdf',
+            image: { type: 'jpeg', quality: 1 },
+            html2canvas: { scale: 3, useCORS: true },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
+        };
+        html2pdf().set(opt).from(element).save();
+    });
+});
+</script>
+</body>
+</html>

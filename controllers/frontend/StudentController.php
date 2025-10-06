@@ -301,6 +301,141 @@ class StudentController {
         }
     }
 
+    public static function getStudentScoresByClass($conn, $class_id) {
+        if (empty($class_id)) {
+            self::response(false, "Class ID is required");
+        }
+
+        try {
+            $stmt = $conn->prepare("
+                SELECT 
+                    s.id AS stu_id,
+                    s.full_name,
+                    s.gender,
+                    s.tel,
+                    s.att_score,
+                    s.act_score,
+                    s.exam_score,
+                    s.total,
+                    s.passorfail,
+                    c.class_name,
+                    c.class_code
+                FROM students s
+                INNER JOIN classes c ON s.class_id = c.id
+                WHERE s.class_id = ?
+                ORDER BY s.full_name ASC
+            ");
+
+            if (!$stmt) throw new Exception("Prepare failed: " . $conn->error);
+
+            $stmt->bind_param("i", $class_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            $students = [];
+            while ($row = $result->fetch_assoc()) {
+                $students[] = $row;
+            }
+
+            if (empty($students)) {
+                self::response(false, "No students found for this class");
+            }
+
+            self::response(true, "Student scores fetched successfully", $students);
+
+        } catch (Exception $e) {
+            self::response(false, $e->getMessage());
+        }
+    }
+
+    public static function saveScoresFast($conn, $scores) {
+        header('Content-Type: application/json'); // make sure JSON
+        if (empty($scores)) {
+            echo json_encode(["status" => false, "message" => "No scores to save"]);
+            exit;
+        }
+
+        $stuIds = [];
+        $attCases = [];
+        $actCases = [];
+        $examCases = [];
+
+        foreach ($scores as $s) {
+            $stuId = (int)$s['stu_id'];
+            $att = (int)$s['att_score'];
+            $act = (int)$s['act_score'];
+            $exam = (int)$s['exam_score'];
+
+            $stuIds[] = $stuId;
+            $attCases[] = "WHEN id = $stuId THEN $att";
+            $actCases[] = "WHEN id = $stuId THEN $act";
+            $examCases[] = "WHEN id = $stuId THEN $exam";
+        }
+
+        $stuIdsStr = implode(",", $stuIds);
+        $attCasesStr = implode(" ", $attCases);
+        $actCasesStr = implode(" ", $actCases);
+        $examCasesStr = implode(" ", $examCases);
+
+        $sql = "
+            UPDATE students
+            SET 
+                att_score = CASE $attCasesStr END,
+                act_score = CASE $actCasesStr END,
+                exam_score = CASE $examCasesStr END
+            WHERE id IN ($stuIdsStr)
+        ";
+
+        if ($conn->query($sql)) {
+            echo json_encode(["status" => true, "message" => "Scores saved successfully"]);
+        } else {
+            echo json_encode(["status" => false, "message" => "Failed to save scores: ".$conn->error]);
+        }
+        exit;
+    }
+
+    // ✅ Count attendance summary per student_id (ignore class)
+    public static function countAttendanceByStudents($conn, $stu_ids) {
+        if (empty($stu_ids) || !is_array($stu_ids)) {
+            self::response(false, "Student IDs are required");
+        }
+
+        try {
+            // Create placeholders (?, ?, ?, ...)
+            $placeholders = implode(',', array_fill(0, count($stu_ids), '?'));
+
+            $sql = "
+                SELECT 
+                    stu_id,
+                    SUM(present) AS total_present,
+                    SUM(absent) AS total_absent,
+                    SUM(permission) AS total_permission
+                FROM student_records
+                WHERE stu_id IN ($placeholders)
+                GROUP BY stu_id
+            ";
+
+            $stmt = $conn->prepare($sql);
+            if (!$stmt) throw new Exception("Prepare failed: " . $conn->error);
+
+            // Bind parameters
+            $types = str_repeat('i', count($stu_ids));
+            $stmt->bind_param($types, ...$stu_ids);
+
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            $data = [];
+            while ($row = $result->fetch_assoc()) {
+                $data[] = $row;
+            }
+
+            self::response(true, "Attendance count fetched successfully", $data);
+
+        } catch (Exception $e) {
+            self::response(false, $e->getMessage());
+        }
+    }
 
 }
 ?>

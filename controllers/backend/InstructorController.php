@@ -74,14 +74,23 @@
 
         // DELETE instructor
         public static function delete($conn, $id) {
+            // Delete classes belonging to this instructor
+            $conn->query("DELETE FROM classes WHERE instructor_id = $id");
+
+            // Then delete instructor
             $stmt = $conn->prepare("DELETE FROM users WHERE id=? AND role='instructor'");
             $stmt->bind_param("i", $id);
+            $stmt->execute();
 
-            if ($stmt->execute()) {
-                self::response(true, "Instructor deleted successfully");
+            if ($stmt->affected_rows > 0) {
+                self::response(true, "Instructor and related classes deleted successfully");
             } else {
-                self::response(false, "Delete failed: ".$conn->error);
+                self::response(false, "Delete failed or instructor not found");
             }
+
+            $stmt->close();
         }
+
+
     }
 ?>
